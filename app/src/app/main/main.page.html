@@ -1,0 +1,30 @@
+<ion-tabs>
+  <ion-tab-bar slot="top">
+      <ion-tab-button mode="md" tab="info">
+      <img src="/assets/begelogo.svg">
+    </ion-tab-button>
+
+    <ion-tab-button tab="berichtsheft">
+      <ion-icon name="paper"></ion-icon>
+      <ion-label>Berichtsheft</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="queue">
+      <ion-icon name="document"></ion-icon>
+      <ion-label>PDFs</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="vorlagen">
+      <ion-icon name="copy"></ion-icon>
+      <ion-label>Vorlagen</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="profil">
+      <ion-icon name="person"></ion-icon>
+      <ion-label>Profil</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button (click)="logout()">
+      <ion-icon name="log-out"></ion-icon>
+      <ion-label>Abmelden</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+
+</ion-tabs>

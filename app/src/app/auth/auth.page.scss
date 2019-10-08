@@ -1,0 +1,35 @@
+#fullBG {
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height: 100%;
+    background: url('/assets/background.jpg') no-repeat center center scroll;
+    background-size: cover;
+}
+#authForm {
+    margin: auto; 
+    margin-top: 2rem;
+    width: 22rem;
+    background: rgba(255,255,255,0.4);
+    padding: 1rem;
+    border-radius: 1rem;
+}
+a {
+    background: unset !important;
+}
+.submitButton {
+    margin: 0 auto 0 1rem;
+}
+.fullWidth {
+    width: 100%;
+    height: 2rem;
+    margin-top: 2rem;
+}
+
+.submitButtonRow {
+    height: 2rem;
+}
+.submitButton {
+    float: right;
+}

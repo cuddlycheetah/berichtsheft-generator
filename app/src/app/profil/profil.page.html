@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Profil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form style="padding: 2rem;" [formGroup]="changePasswordGroup">
+    <p>
+      <mat-form-field>
+        <input matInput placeholder="Neues Passwort" type="password" formControlName="password" required>
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field>
+        <input matInput placeholder="Neues Passwort wiederholen" type="password" formControlName="confirm_password" required>
+      </mat-form-field>
+    </p>
+    <div>
+      <button mat-raised-button color="warn" (click)="changePW()" [disabled]="changePasswordGroup.invalid">Passwort ändern</button>
+    </div>
+  </form>
+</ion-content>
