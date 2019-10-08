@@ -56,7 +56,7 @@ export class AuthService {
   }
   async login(data) {
     const loading = await this.loadingCtrl.create({
-      message: 'Logging in',
+      message: 'Anmelden...',
       translucent: true,
     });
     await loading.present();
@@ -66,9 +66,9 @@ export class AuthService {
     )
     .subscribe(
       async (res: any) => {
-        console.log('=> got response', res);
+        // console.log('=> got response', res);
         if (!!res) {
-          console.log('login success');
+          // console.log('login success');
           await this.storage.set('ACCESS_TOKEN', res.token);
           await this.storage.set('EXPIRES_IN', res.expires);
           await this.storage.set('ACCESS_KEY', res.user.username);
@@ -76,7 +76,7 @@ export class AuthService {
           this.router.navigate(['main']);
         }
       }, async (req) => {
-        console.error('oopsie happened', req);
+        console.error('oopsie woopsie happened UwU', req);
         const err = req.error;
         const alert = await this.alertCtrl.create({
           header: 'Login failed',
