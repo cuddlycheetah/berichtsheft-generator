@@ -5,6 +5,18 @@
 </ion-header>-->
 
 <ion-content>
+  <h4>Name ändern</h4>
+  <form style="padding: 2rem;" [formGroup]="changeNameGroup">
+    <p>
+      <mat-form-field>
+        <input matInput placeholder="Anzeigename" type="text" formControlName="name" required>
+      </mat-form-field>
+    </p>
+    <div>
+      <button mat-raised-button color="primary" (click)="changeName()" [disabled]="changeNameGroup.invalid">Name ändern</button>
+    </div>
+  </form>
+  <h4>Passwort ändern</h4>
   <form style="padding: 2rem;" [formGroup]="changePasswordGroup">
     <p>
       <mat-form-field>

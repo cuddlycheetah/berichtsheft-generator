@@ -23,6 +23,7 @@ function passwordConfirming(c: AbstractControl): any {
 export class ProfilPage implements OnInit {
 
   changePasswordGroup: FormGroup;
+  changeNameGroup: FormGroup;
 
   constructor (
     public formBuilder: FormBuilder,
@@ -34,6 +35,10 @@ export class ProfilPage implements OnInit {
       password: [null, Validators.required],
       confirm_password: [null, [Validators.required, passwordConfirming]]
     });
+    this.changeNameGroup = this.formBuilder.group({
+      name: ['', Validators.required],
+    });
+
   }
 
   ngOnInit() {
@@ -60,7 +65,12 @@ export class ProfilPage implements OnInit {
         }
       ]
     });
-
     await alert.present();
+  }
+  async changeName() {
+    const name = this.changeNameGroup.value.name;
+    (await this.apiProfile.changeName(name))
+    .subscribe(res => {
+    });
   }
 }

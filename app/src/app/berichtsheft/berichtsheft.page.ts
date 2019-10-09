@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { APIBerichtshefteService } from '../api/apiberichtshefte.service';
 import { Berichtsheft } from '../api/berichtsheft';
+import { AlertController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-berichtsheft',
@@ -13,6 +15,8 @@ export class BerichtsheftPage implements OnInit {
 
   constructor(
     private apiBerichtsheft: APIBerichtshefteService,
+    private alertCtrl: AlertController,
+    private router: Router
   ) { }
   ngOnInit() {
     this.refresh();
@@ -27,4 +31,61 @@ export class BerichtsheftPage implements OnInit {
     });
   }
 
+  async mewDocument() {
+    const alert = await this.alertCtrl.create({
+      header: 'Neues Berichtsheft',
+      inputs: [
+        {
+          name: 'name',
+          type: 'text',
+          placeholder: 'Berichtsheftbezeichnung'
+        },
+      ],
+      buttons: [
+        {
+          text: 'Abbrechen',
+          role: 'cancel',
+          cssClass: 'secondary',
+        }, {
+          text: 'Erstellen',
+          handler: async (res) => {
+            if (!!res.name && res.name.length > 3) {
+              (await this.apiBerichtsheft.create(res.name))
+              .subscribe((res: any) => {
+                this.refresh();
+              });
+            }
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+  async editBerichtsheft(berichtsheft) {
+    this.router.navigate([ 'main', 'berichtsheft@', berichtsheft.uuid ]);
+  }
+  async deleteBerichtsheft(berichtsheft) {
+    const alert = await this.alertCtrl.create({
+      header: 'Bestätigung erforderlich!',
+      message: 'Möchten sie wirklich dieses Berichtsheft löschen?</br></br>Hinweis: Dies löscht auch alle Wochen und Tagesberichte!',
+      buttons: [
+        {
+          text: 'Abbrechen',
+          role: 'cancel',
+          cssClass: 'secondary',
+        }, {
+          text: 'Ja, löschen!',
+          handler: async () => {
+            (await this.apiBerichtsheft.delete(berichtsheft.uuid))
+            .subscribe(res => {
+              this.refresh();
+            });
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
 }

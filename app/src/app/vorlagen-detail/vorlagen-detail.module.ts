@@ -1,29 +1,26 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { VorlagenPage } from './vorlagen.page';
-import { MaterialModule } from '../material.service';
+import { VorlagenDetailPage } from './vorlagen-detail.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: VorlagenPage
+    component: VorlagenDetailPage
   }
 ];
 
 @NgModule({
   imports: [
     CommonModule,
-    ReactiveFormsModule,
     FormsModule,
     IonicModule,
-    MaterialModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [VorlagenPage]
+  declarations: [VorlagenDetailPage]
 })
-export class VorlagenPageModule {}
+export class VorlagenDetailPageModule {}

@@ -55,7 +55,7 @@ export class APIBerichtshefteService {
   }
   async update(uuid: string, updateData: any) {
     const loading = await this.loadingCtrl.create({
-      message: 'Erstelle Berichtsheft',
+      message: 'Ändere Berichtsheft',
       translucent: true,
     });
     await loading.present();

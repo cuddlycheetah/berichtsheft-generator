@@ -17,6 +17,19 @@ export class APIProfileService {
     private alertCtrl: AlertController,
     private router: Router
   ) { }
+  async changeName (name) {
+    const loading = await this.loadingCtrl.create({
+      message: 'Ändere Name',
+      translucent: true,
+    });
+    await loading.present();
+    return this.http.put(`${ API_HOST }/api/v1/self/profile/name`, {
+      new: name,
+    })
+    .pipe(
+      finalize(() => loading.dismiss())
+    ) as Observable<any>;
+  }
   async changePassword (newPassword) {
     const loading = await this.loadingCtrl.create({
       message: 'Ändere Passwort',

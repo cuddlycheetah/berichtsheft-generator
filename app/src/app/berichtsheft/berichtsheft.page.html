@@ -16,14 +16,14 @@
       </p>
     </mat-card-content>
     <mat-card-actions>
-      <button mat-button>Öffnen</button>
-      <button mat-button>Löschen</button>
+      <button mat-button (click)="editBerichtsheft(berichtsheft)" color="primary">Öffnen</button>
+      <button mat-button (click)="deleteBerichtsheft(berichtsheft)" color="warn">Löschen</button>
     </mat-card-actions>
   </mat-card>
 
   <!-- Berichtsheft erstellen -->
   <ion-fab vertical="top" horizontal="end" slot="fixed">
-    <ion-fab-button>
+    <ion-fab-button (click)="mewDocument()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
