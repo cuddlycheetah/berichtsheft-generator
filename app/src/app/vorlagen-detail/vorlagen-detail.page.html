@@ -5,5 +5,23 @@
 </ion-header>
 
 <ion-content>
+  <mat-tab-group>
+    <mat-tab *ngFor="let tag of vorlagenDetails.tage; let i = index">
+      <ng-template mat-tab-label>
+        {{ i }}
+      </ng-template>
+      <pre>{{ tag | json }}</pre>
+    </mat-tab>
+  </mat-tab-group>
+  <mat-form-field>
+    <mat-label>Tag hinzufügen</mat-label>
+    <mat-select (selectionChange)="addTag(Number($event.value))">
+      <mat-option value="0" *ngIf="!hasDay(0)">Montag</mat-option>
+      <mat-option value="1" *ngIf="!hasDay(1)">Dienstag</mat-option>
+      <mat-option value="2" *ngIf="!hasDay(2)">Mittwoch</mat-option>
+      <mat-option value="3" *ngIf="!hasDay(3)">Donnerstag</mat-option>
+      <mat-option value="4" *ngIf="!hasDay(4)">Freitag</mat-option>
+    </mat-select>
+  </mat-form-field>
   <pre>{{ vorlagenDetails | json }}</pre>
 </ion-content>
