@@ -1,32 +1,15 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { APIQueueService } from '../api/apiqueue.service';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-queue',
   templateUrl: './queue.page.html',
   styleUrls: ['./queue.page.scss'],
 })
-export class QueuePage implements OnInit, OnDestroy {
-  private session;
-  public socketData = {
-    connectionState: 'Unbekannt',
-    queueData: {
-      queue: [],
-      waiting: [],
-    },
-  };
+export class QueuePage implements OnInit {
 
-  constructor(
-    private apiQueue: APIQueueService,
-  ) {
-  }
+  constructor() { }
 
   ngOnInit() {
-    this.session = this.apiQueue.getSocket()
-    .subscribe((data: any) => this.socketData = data);
-  }
-  ngOnDestroy() {
-    if (!!this.session) { this.session.unsubscribe(); }
   }
 
 }

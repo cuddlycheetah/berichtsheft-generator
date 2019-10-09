@@ -1,30 +1,9 @@
-<!--<ion-header>
+<ion-header>
   <ion-toolbar>
     <ion-title>Berichtsheft</ion-title>
   </ion-toolbar>
-</ion-header>-->
+</ion-header>
 
 <ion-content>
-  <mat-card style="max-width: 45rem;width: 100%;" *ngFor="let berichtsheft of listBerichtshefte">
-    <mat-card-header>
-      <mat-icon mat-card-avatar>book</mat-icon>
-      <mat-card-title>{{ berichtsheft.name }}</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <p>
-        Wochenberichte: {{ berichtsheft.berichteCount }}
-      </p>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-button>Öffnen</button>
-      <button mat-button>Löschen</button>
-    </mat-card-actions>
-  </mat-card>
 
-  <!-- Berichtsheft erstellen -->
-  <ion-fab vertical="top" horizontal="end" slot="fixed">
-    <ion-fab-button>
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
 </ion-content>
