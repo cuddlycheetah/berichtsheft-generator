@@ -10,7 +10,8 @@ import { MomentModule } from 'angular2-moment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { OwlDateTimeModule, OwlNativeDateTimeModule, OWL_DATE_TIME_LOCALE, OWL_DATE_TIME_FORMATS } from 'ng-pick-datetime';
+import { OwlDateTimeModule, OWL_DATE_TIME_LOCALE, OWL_DATE_TIME_FORMATS } from 'ng-pick-datetime';
+import { OwlMomentDateTimeModule, OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS } from 'ng-pick-datetime-moment';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { InterceptorProvider } from './interceptor.service';
@@ -39,7 +40,7 @@ export const MY_MOMENT_FORMATS = {
     HttpClientModule,
     AppRoutingModule,
     OwlDateTimeModule,
-    OwlNativeDateTimeModule,
+    OwlMomentDateTimeModule,
     MomentModule,
     MaterialModule,
     StorageServiceModule
@@ -49,8 +50,10 @@ export const MY_MOMENT_FORMATS = {
     SplashScreen,
     { provide: HTTP_INTERCEPTORS, useClass: InterceptorProvider, multi: true },
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+
     { provide: OWL_DATE_TIME_LOCALE, useValue: 'de' },
     { provide: OWL_DATE_TIME_FORMATS, useValue: MY_MOMENT_FORMATS },
+    { provide: OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS, useValue: { useUtc: true } },
   ],
   bootstrap: [AppComponent]
 })

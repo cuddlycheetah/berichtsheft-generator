@@ -5,6 +5,12 @@
 </ion-header>-->
 
 <ion-content>
+  <!-- Vorlage erstellen -->
+  <button mat-raised-button color="primary" (click)="mewDocument()">
+    <mat-icon>add</mat-icon>
+    HINZUFÜGEN
+  </button>
+
   <mat-card style="max-width: 45rem;width: 100%;" *ngFor="let vorlage of listVorlage">
     <mat-card-header>
       <mat-icon mat-card-avatar>book</mat-icon>
@@ -16,10 +22,4 @@
     </mat-card-actions>
   </mat-card>
 
-  <!-- Vorlage erstellen -->
-  <ion-fab vertical="top" horizontal="end" slot="fixed">
-    <ion-fab-button (click)="mewDocument()">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
 </ion-content>

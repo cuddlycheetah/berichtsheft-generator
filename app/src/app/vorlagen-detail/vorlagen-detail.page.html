@@ -5,23 +5,37 @@
 </ion-header>
 
 <ion-content>
+
+  <mat-form-field>
+    <mat-label>Tag hinzufügen</mat-label>
+    <mat-select (selectionChange)="addDay($event.value)">
+      <mat-option *ngFor="let dayName of dayNames; let i = index" [value]="i" [hidden]="hasDay(i)">{{ dayName }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
   <mat-tab-group>
-    <mat-tab *ngFor="let tag of vorlagenDetails.tage; let i = index">
+    <mat-tab *ngFor="let tag of vorlagenDetails.tage; let i = index" [hidden]="!hasDay(i)">
       <ng-template mat-tab-label>
-        {{ i }}
+        {{ dayNames[i] }}
       </ng-template>
+      
+      <section #zeiten style="margin-left: 2rem;">
+        <section #zeitenStart class="zeit">
+          <h3>Start:</h3>
+          <owl-date-time-inline [(ngModel)]="tag.start" pickerType="timer"></owl-date-time-inline>
+        </section>
+        <section #zeitenEnde class="zeit">
+          <h3>Ende:</h3>
+          <owl-date-time-inline [(ngModel)]="tag.ende" pickerType="timer"></owl-date-time-inline>
+        </section>
+        <section #zeitenPause class="zeit">
+          <h3>Pause:</h3>
+          <owl-date-time-inline [(ngModel)]="tag.pause" pickerType="timer"></owl-date-time-inline>  
+        </section>
+        <div style="clear:both;"></div>
+      </section>
       <pre>{{ tag | json }}</pre>
     </mat-tab>
   </mat-tab-group>
-  <mat-form-field>
-    <mat-label>Tag hinzufügen</mat-label>
-    <mat-select (selectionChange)="addTag(Number($event.value))">
-      <mat-option value="0" *ngIf="!hasDay(0)">Montag</mat-option>
-      <mat-option value="1" *ngIf="!hasDay(1)">Dienstag</mat-option>
-      <mat-option value="2" *ngIf="!hasDay(2)">Mittwoch</mat-option>
-      <mat-option value="3" *ngIf="!hasDay(3)">Donnerstag</mat-option>
-      <mat-option value="4" *ngIf="!hasDay(4)">Freitag</mat-option>
-    </mat-select>
-  </mat-form-field>
   <pre>{{ vorlagenDetails | json }}</pre>
 </ion-content>
