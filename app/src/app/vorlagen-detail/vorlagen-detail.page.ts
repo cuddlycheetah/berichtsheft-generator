@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import Vorlage from '../api/vorlage';
 import { APITemplatesService } from '../api/apitemplates.service';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 
 @Component({
   selector: 'app-vorlagen-detail',
@@ -10,21 +11,50 @@ import { APITemplatesService } from '../api/apitemplates.service';
 })
 export class VorlagenDetailPage implements OnInit {
 
+  public vorlage: FormGroup;
   public vorlagenDetails: Vorlage = {} as Vorlage;
   public vorlagenDetailsInitial: Vorlage = {} as Vorlage;
   public dayNames = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag'];
 
   constructor(
+    private formBuilder: FormBuilder,
     private apiTemplates: APITemplatesService,
     private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
+    this.vorlage = this.formBuilder.group({
+      tage: this.formBuilder.array([
+        this.initDay(0),
+        this.initDay(1),
+        this.initDay(2),
+        this.initDay(3),
+        this.initDay(4),
+      ]),
+    });
     this.vorlagenDetails = this.route.snapshot.data.vorlage;
     this.vorlagenDetailsInitial = JSON.parse(JSON.stringify(this.vorlagenDetails));
   }
-  hasDay(dayIndex) {
-    return this.vorlagenDetails.tage.filter(tag => tag.id === dayIndex).length > 0;
+  initTaetigkeit() {
+    const arr =  this.formBuilder.array([
+      this.formBuilder.control(''), // legacy support
+      this.formBuilder.control('', [ Validators.required, Validators.maxLength(180) ]),
+      this.formBuilder.control('0:00', [ Validators.required, Validators.maxLength(6) ])
+    ]);
+    return arr;
+  }
+  initDay(dayIndex) {
+    return this.formBuilder.group({
+      uuid: [ '' ],
+      id: this.formBuilder.control(dayIndex),
+      start: [ 0, Validators.required ],
+      ende: [ 0, Validators.required ],
+      pause: [ 0, Validators.required ],
+      krank: [ false ],
+      frei: [ '' ],
+      taetigkeiten: this.formBuilder.array([
+      ]),
+    });
   }
   addDay(dayToAdd) {
     dayToAdd = Number(dayToAdd);

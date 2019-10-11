@@ -5,37 +5,70 @@
 </ion-header>
 
 <ion-content>
+  <form [formGroup]="vorlage">
+    <mat-tab-group>
+      <mat-tab formArrayName="tage" *ngFor="let tag of vorlage.controls.tage.controls; let i = index">
+        <ng-template mat-tab-label>{{ dayNames[i] }}</ng-template>
 
-  <mat-form-field>
-    <mat-label>Tag hinzufügen</mat-label>
-    <mat-select (selectionChange)="addDay($event.value)">
-      <mat-option *ngFor="let dayName of dayNames; let i = index" [value]="i" [hidden]="hasDay(i)">{{ dayName }}</mat-option>
-    </mat-select>
-  </mat-form-field>
+        <section [formGroupName]="i">
+          <input type="hidden" formControlName="uuid">
 
-  <mat-tab-group>
-    <mat-tab *ngFor="let tag of vorlagenDetails.tage; let i = index" [hidden]="!hasDay(i)">
-      <ng-template mat-tab-label>
-        {{ dayNames[i] }}
-      </ng-template>
-      
-      <section #zeiten style="margin-left: 2rem;">
-        <section #zeitenStart class="zeit">
-          <h3>Start:</h3>
-          <owl-date-time-inline [(ngModel)]="tag.start" pickerType="timer"></owl-date-time-inline>
+          <section style="margin-left: 2rem;">
+            <section class="zeit">
+              <h3>Start:</h3>
+              <owl-date-time-inline formControlName="start" pickerType="timer"></owl-date-time-inline>
+            </section>
+            <section class="zeit">
+              <h3>Ende:</h3>
+              <owl-date-time-inline formControlName="ende" pickerType="timer"></owl-date-time-inline>
+            </section>
+            <section class="zeit">
+              <h3>Pause:</h3>
+              <owl-date-time-inline formControlName="pause" pickerType="timer"></owl-date-time-inline>  
+            </section>
+            <div style="clear:both;"></div>
+          </section>
+
+          <section style="margin-left: 2rem; margin-top: 0.5rem;">
+            <mat-checkbox formControlName="krank">Freier Tag/Krank</mat-checkbox>
+            <mat-form-field style="margin-left: 2rem;">
+              <input matInput placeholder="Grund" formControlName="frei" min="1" max="4" [readonly]="!vorlage.controls.tage.controls[i].value.krank" [attr.required]="!vorlage.controls.tage.controls[i].value.krank">
+            </mat-form-field>
+          </section>
+
+          <section style="margin-left: 2rem; margin-top: 0.5rem;">
+            <div formArrayName="taetigkeiten" *ngFor="let taetigkeit of vorlage.controls.tage.controls[i].controls.taetigkeiten.controls; let j = index">
+              <section [formGroupName]="j" style="display: flex; justify-content: start;">
+                <mat-form-field style="margin-top: 0.5rem; order: 0;" [hidden]="taetigkeit.value[0].length <= 0">
+                  <input matInput formControlName="0" readonly>
+                </mat-form-field>
+                <mat-form-field style="margin-top: 0.5rem; order: 1; width: 50%; max-width: 25rem;">
+                  <textarea matInput formControlName="1" placeholder="Bezeichnung" style="max-height: 2rem; resize: none;"></textarea>
+                </mat-form-field>
+                <mat-form-field style="margin-top: 0.5rem; order: 2; width: 25%; max-width: 5rem;">
+                  <input matInput formControlName="2" placeholder="Dauer">
+                </mat-form-field>
+                <button mat-flat-button style="margin-top: 0.5rem; order: 3;" color="primary" (click)="vorlage.controls.tage.controls[i].controls.taetigkeiten.removeAt(j)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </section>
+            </div>
+            <button mat-flat-button style="margin-top: 0.5rem;" color="primary" (click)="vorlage.controls.tage.controls[i].controls.taetigkeiten.push(initTaetigkeit())">
+              <mat-icon>add</mat-icon>
+            </button>
+          </section>
+
+          <!-- <pre>{{ tag.value | json }}</pre> -->
         </section>
-        <section #zeitenEnde class="zeit">
-          <h3>Ende:</h3>
-          <owl-date-time-inline [(ngModel)]="tag.ende" pickerType="timer"></owl-date-time-inline>
-        </section>
-        <section #zeitenPause class="zeit">
-          <h3>Pause:</h3>
-          <owl-date-time-inline [(ngModel)]="tag.pause" pickerType="timer"></owl-date-time-inline>  
-        </section>
-        <div style="clear:both;"></div>
-      </section>
-      <pre>{{ tag | json }}</pre>
-    </mat-tab>
-  </mat-tab-group>
+      </mat-tab>
+    </mat-tab-group>
+  </form>
   <pre>{{ vorlagenDetails | json }}</pre>
+  <pre>{{ vorlage.value | json }}</pre>
+  <button mat-button color="primary" type="submit" (click)="dataSubmit()" [disabled]="vorlage.invalid">
+    <mat-icon>save</mat-icon> Speichern
+  </button>
+  <button mat-button color="warn" type="delete" (click)="delete()">
+    <mat-icon>delete_forever</mat-icon> Löschen
+  </button>
 </ion-content>
