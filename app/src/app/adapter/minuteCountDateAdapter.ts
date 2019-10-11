@@ -93,7 +93,7 @@ export class MinuteCountDateTimeAdapter extends DateTimeAdapter<number> {
         return 0 + date;
     }
     now() {
-        return (new Date()).getHours() * 60 + (new Date()).getMinutes();
+        return 0;
     }
     format(date: any, displayFormat: any): string {
         return date;
@@ -101,5 +101,4 @@ export class MinuteCountDateTimeAdapter extends DateTimeAdapter<number> {
     parse(value: any, parseFormat: any) {
         return parseInt(value);
     }
-
 }
