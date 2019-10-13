@@ -5,5 +5,27 @@
 </ion-header>-->
 
 <ion-content>
-  <pre>{{ socketData | json }}</pre>
+  <article *ngFor="let entry of socketData.value.queueData.queue">
+    <mat-card style="max-width: 25rem; width: 100%; margin-top: 0.5rem;" *ngIf="!!entry.waitCount">
+      <mat-card-header>
+      <mat-icon mat-card-avatar>document</mat-icon>
+      <mat-card-title>Noch {{ entry.waitCount }} in der Warteschlange</mat-card-title>
+    </mat-card-header>
+    </mat-card>
+    <mat-card style="max-width: 25rem; width: 100%; margin-top: 0.5rem;" *ngIf="!!entry.auftrag">
+        <mat-card-header>
+          <mat-icon mat-card-avatar>document</mat-icon>
+          <mat-card-title>{{ entry.name }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <pre>{{ entry | json }}</pre>
+          <span>gültig bis: {{ entry.deletionTime | amLocale:'de' | amCalendar }}</span>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button (click)="download(entry)" color="primary">Herunterladen</button>
+        </mat-card-actions>
+      </mat-card>
+  </article>
+    
+  <pre>{{ socketData.value | json }}</pre>
 </ion-content>

@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { QueuePage } from './queue.page';
 import { MaterialModule } from '../material.service';
+import { MomentModule } from 'angular2-moment';
 
 const routes: Routes = [
   {
@@ -20,6 +21,7 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
+    MomentModule,
     MaterialModule,
     RouterModule.forChild(routes)
   ],

@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { APIQueueService } from '../api/apiqueue.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-queue',
@@ -8,13 +9,13 @@ import { APIQueueService } from '../api/apiqueue.service';
 })
 export class QueuePage implements OnInit, OnDestroy {
   private session;
-  public socketData = {
+  public socketData = new BehaviorSubject<any>({
     connectionState: 'Unbekannt',
     queueData: {
       queue: [],
       waiting: [],
     },
-  };
+  });
 
   constructor(
     private apiQueue: APIQueueService,
@@ -23,7 +24,7 @@ export class QueuePage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.session = this.apiQueue.getSocket()
-    .subscribe((data: any) => this.socketData = data);
+    .subscribe((data: any) => this.socketData.next(data));
   }
   ngOnDestroy() {
     if (!!this.session) { this.session.unsubscribe(); }
