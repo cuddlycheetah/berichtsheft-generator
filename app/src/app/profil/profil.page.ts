@@ -41,7 +41,12 @@ export class ProfilPage implements OnInit {
 
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    (await this.apiProfile.fetch())
+    .subscribe(res => {
+      console.log(res);
+      this.changeNameGroup.get('name').setValue(res.name);
+    });
   }
 
   async changePW() {

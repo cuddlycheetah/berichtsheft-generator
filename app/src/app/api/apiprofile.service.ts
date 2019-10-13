@@ -17,6 +17,17 @@ export class APIProfileService {
     private alertCtrl: AlertController,
     private router: Router
   ) { }
+  async fetch() {
+    const loading = await this.loadingCtrl.create({
+      message: 'Lade Profil',
+      translucent: true,
+    });
+    await loading.present();
+    return this.http.get(`${ API_HOST }/api/v1/self/profile`)
+    .pipe(
+      finalize(() => loading.dismiss())
+    ) as Observable<any>;
+  }
   async changeName (name) {
     const loading = await this.loadingCtrl.create({
       message: 'Ändere Name',
