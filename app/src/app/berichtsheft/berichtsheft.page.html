@@ -11,18 +11,19 @@
     HINZUFÜGEN
   </button>
 
-  <mat-card style="max-width: 45rem;width: 100%;" *ngFor="let berichtsheft of listBerichtshefte">
+  <mat-card style="max-width: 45rem; width: 100%; margin-top: 0.5rem;" *ngFor="let berichtsheft of listBerichtshefte">
     <mat-card-header>
       <mat-icon mat-card-avatar>book</mat-icon>
       <mat-card-title>{{ berichtsheft.name }}</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <p>
-        Wochenberichte: {{ berichtsheft.berichteCount }}
-      </p>
+      <pre>Wochenberichte: {{ berichtsheft.berichteCount }}
+ID Offset: {{ berichtsheft.kwoffset }}
+Start: {{ berichtsheft.start }}
+Ende: {{ berichtsheft.ende }}</pre>
     </mat-card-content>
     <mat-card-actions>
-      <button mat-button (click)="editBerichtsheft(berichtsheft)" color="primary">Öffnen</button>
+      <button mat-button (click)="openBerichtsheft(berichtsheft)" color="primary">Öffnen</button>
       <button mat-button (click)="deleteBerichtsheft(berichtsheft)" color="warn">Löschen</button>
     </mat-card-actions>
   </mat-card>

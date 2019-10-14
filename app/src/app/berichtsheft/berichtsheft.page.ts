@@ -38,7 +38,7 @@ export class BerichtsheftPage implements OnInit {
         {
           name: 'name',
           type: 'text',
-          placeholder: 'Berichtsheftbezeichnung'
+          placeholder: 'Berichtsheft-Bezeichnung'
         },
       ],
       buttons: [
@@ -62,7 +62,7 @@ export class BerichtsheftPage implements OnInit {
 
     await alert.present();
   }
-  async editBerichtsheft(berichtsheft) {
+  async openBerichtsheft(berichtsheft) {
     this.router.navigate([ 'main', 'berichtsheft@', berichtsheft.uuid ]);
   }
   async deleteBerichtsheft(berichtsheft) {
