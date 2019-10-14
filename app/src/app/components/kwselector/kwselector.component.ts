@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import * as moment from 'moment';
 
 @Component({
   selector: 'kwselector',
@@ -17,7 +18,11 @@ export class KWSelectorComponent implements OnInit {
   @Input() public selectedYear = -1;
   @Output() public selectedYearChange = new EventEmitter<number>();
 
-  constructor() { }
+  public value = '';
+  constructor() {
+    const now = moment();
+    this.value = `${ now.format('YYYY') }-W${ now.format('w') }`;
+  }
 
   ngOnInit() {}
 
