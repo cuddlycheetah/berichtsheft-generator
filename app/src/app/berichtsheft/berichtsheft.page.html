@@ -11,7 +11,7 @@
     HINZUFÜGEN
   </button>
 
-  <mat-card style="max-width: 45rem; width: 100%; margin-top: 0.5rem;" *ngFor="let berichtsheft of listBerichtshefte">
+  <mat-card style="max-width: 30rem; width: 100%; margin-top: 0.5rem;" *ngFor="let berichtsheft of listBerichtshefte">
     <mat-card-header>
       <mat-icon mat-card-avatar>book</mat-icon>
       <mat-card-title>{{ berichtsheft.name }}</mat-card-title>
@@ -21,10 +21,15 @@
 ID Offset: {{ berichtsheft.kwoffset }}
 Start: {{ berichtsheft.start }}
 Ende: {{ berichtsheft.ende }}</pre>
+    <p class="mat-error" [hidden]="!!berichtsheft.start">Bitte wählen sie den Gültigkeitsbereich aus um das Berichtsheft zu öffnen</p>
     </mat-card-content>
     <mat-card-actions>
-      <button mat-button (click)="openBerichtsheft(berichtsheft)" color="primary">Öffnen</button>
-      <button mat-button (click)="deleteBerichtsheft(berichtsheft)" color="warn">Löschen</button>
+      <button mat-flat-button (click)="openBerichtsheft(berichtsheft)" [disabled]="!!!berichtsheft.start" color="primary">Öffnen</button>
+      <button mat-flat-button (click)="editBerichtsheftOffset(berichtsheft)" color="primary">Offset ändern</button>
+      <button mat-flat-button (click)="editBerichtsheftBereich(berichtsheft)" color="primary">Bereich festlegen</button>
+      <button mat-flat-button (click)="deleteBerichtsheft(berichtsheft)" color="warn">
+        <mat-icon>delete</mat-icon>
+      </button>
     </mat-card-actions>
   </mat-card>
 </ion-content>

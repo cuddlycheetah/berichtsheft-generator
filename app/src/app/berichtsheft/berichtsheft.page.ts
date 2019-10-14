@@ -65,6 +65,64 @@ export class BerichtsheftPage implements OnInit {
   async openBerichtsheft(berichtsheft) {
     this.router.navigate([ 'main', 'berichtsheft@', berichtsheft.uuid ]);
   }
+  async editBerichtsheftOffset(berichtsheft) {
+    const alert = await this.alertCtrl.create({
+      header: 'Eingabe benötigt!',
+      message: 'Bitte geben sie das Offset für die fortlaufende Nummerierung an',
+      inputs: [
+        {
+          name: 'offset',
+          type: 'number',
+          placeholder: 'KW-Offset',
+          value: berichtsheft.kwoffset,
+        },
+      ],
+      buttons: [
+        {
+          text: 'Abbrechen',
+          role: 'cancel',
+          cssClass: 'secondary',
+        }, {
+          text: 'Speichern',
+          handler: async (res: any) => {
+            if (!!res.offset) {
+              (await this.apiBerichtsheft.update(berichtsheft.uuid, {
+                kwoffset: res.offset,
+              }))
+              .subscribe(res2 => {
+                this.refresh();
+              });
+            }
+          }
+        }
+      ],
+    });
+
+    await alert.present();
+  }
+  async editBerichtsheftBereich(berichtsheft) {
+    const alert = await this.alertCtrl.create({
+      header: 'Bestätigung erforderlich!',
+      message: 'Möchten sie wirklich dieses Berichtsheft löschen?</br></br>Hinweis: Dies löscht auch alle Wochen und Tagesberichte!',
+      buttons: [
+        {
+          text: 'Abbrechen',
+          role: 'cancel',
+          cssClass: 'secondary',
+        }, {
+          text: 'Ja, löschen!',
+          handler: async () => {
+            (await this.apiBerichtsheft.delete(berichtsheft.uuid))
+            .subscribe(res => {
+              this.refresh();
+            });
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
   async deleteBerichtsheft(berichtsheft) {
     const alert = await this.alertCtrl.create({
       header: 'Bestätigung erforderlich!',

@@ -1,13 +1,10 @@
 <ion-header>
   <ion-toolbar>
-      <ion-title>Berichtsheft bearbeiten '{{ berichtsheftDetails.name }}'</ion-title>
+      <ion-title>Berichtsheft '{{ berichtsheftDetails.name }}'</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <mat-form-field class="example-full-width">
-    <input matInput type="week" name="week" id="camp-week"min="2018-W18" max="2018-W26" required>
-  </mat-form-field>
   <kwselector></kwselector>
   <pre>{{ berichtsheftDetails | json }}</pre>
 </ion-content>
