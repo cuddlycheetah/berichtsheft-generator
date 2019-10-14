@@ -28,9 +28,9 @@ export class APIQueueService {
   private queueFilter(cuck) {
     console.log(cuck);
     cuck = cuck.sort((a, b) => new Date(a.auftragTime).valueOf() > new Date(b.auftragTime).valueOf()); // sorting
-    cuck = cuck.filter(e => (!!e.auftrag && e.status === 2) || (!e.auftrag && e.status !== 2)); // filter done render entrys by others
+    cuck = cuck.filter(e => (!!e.auftrag ) || (!e.auftrag && e.status !== 2)); // filter done render entrys by others
     cuck = cuck.map((e) => {
-      return (!!e.auftrag && e.status === 2) || (!e.auftrag && e.status !== 2) ? e : false;
+      return (!!e.auftrag) || (!e.auftrag && e.status !== 2) ? e : false;
     });
     cuck = cuck.reduce((total, curr, index) => {
       if (cuck[index - 1] === curr && curr === false) {
