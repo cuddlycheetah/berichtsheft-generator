@@ -27,7 +27,13 @@ export class APIQueueService {
   ) { }
   private queueFilter(cuck) {
     console.log(cuck);
+    const NOW = new Date().valueOf();
     cuck = cuck.sort((a, b) => new Date(a.auftragTime).valueOf() > new Date(b.auftragTime).valueOf()); // sorting
+    cuck = cuck.filter(e => {
+      const deletionTime = new Date(e.auftragTime);
+      deletionTime.setDate(deletionTime.getDate() + 1);
+      return deletionTime.valueOf() > NOW;
+    }); // remove older than 24h
     cuck = cuck.filter(e => (!!e.auftrag ) || (!e.auftrag && e.status !== 2)); // filter done render entrys by others
     cuck = cuck.map((e) => {
       return (!!e.auftrag) || (!e.auftrag && e.status !== 2) ? e : false;
