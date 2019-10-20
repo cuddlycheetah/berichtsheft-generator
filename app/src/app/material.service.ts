@@ -25,6 +25,8 @@ import {
   MatProgressBarModule,
   MatMenuModule,
   MatTabsModule,
+
+  MatDialogModule,
 } from '@angular/material';
 
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
@@ -56,6 +58,8 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 
     MatCheckboxModule,
     ScrollingModule,
+
+    MatDialogModule,
   ],
   exports: [
     MatTableModule,
@@ -85,6 +89,8 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     MatMenuModule,
     MatCheckboxModule,
     ScrollingModule,
+
+    MatDialogModule,
   ],
   providers: [
     MatMomentDateModule

@@ -1,0 +1,16 @@
+<h1 mat-dialog-title>{{ berichtsheftData.name || data.berichtsheft }}</h1>
+<div mat-dialog-content>
+  <div style="display:block; height: 80%;">
+    <p>{{ berichtsheftData.name }}</p>
+
+    
+    <h5>Start:</h5>
+    <kwselector></kwselector>
+    <h5>Ende:</h5>
+    <kwselector></kwselector>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button color="warn" (click)="onNoClick()">Abbrechen</button>
+  <button mat-button color="primary" [mat-dialog-close]="true" cdkFocusInitial>Speichern</button>
+</div>

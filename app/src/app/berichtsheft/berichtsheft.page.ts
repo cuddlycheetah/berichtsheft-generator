@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy, NgZone } from '@angular/core';
 import { APIBerichtshefteService } from '../api/apiberichtshefte.service';
 import { Berichtsheft } from '../api/berichtsheft';
 import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-berichtsheft',
@@ -16,7 +17,8 @@ export class BerichtsheftPage implements OnInit {
   constructor(
     private apiBerichtsheft: APIBerichtshefteService,
     private alertCtrl: AlertController,
-    private router: Router
+    private router: Router,
+    public dialog: MatDialog
   ) { }
   ngOnInit() {
     this.refresh();
@@ -101,27 +103,17 @@ export class BerichtsheftPage implements OnInit {
     await alert.present();
   }
   async editBerichtsheftBereich(berichtsheft) {
-    const alert = await this.alertCtrl.create({
-      header: 'Bestätigung erforderlich!',
-      message: 'Möchten sie wirklich dieses Berichtsheft löschen?</br></br>Hinweis: Dies löscht auch alle Wochen und Tagesberichte!',
-      buttons: [
-        {
-          text: 'Abbrechen',
-          role: 'cancel',
-          cssClass: 'secondary',
-        }, {
-          text: 'Ja, löschen!',
-          handler: async () => {
-            (await this.apiBerichtsheft.delete(berichtsheft.uuid))
-            .subscribe(res => {
-              this.refresh();
-            });
-          }
-        }
-      ]
+    const dialogRef = this.dialog.open(EditBereichDialogComponent, {
+      width: '90%',
+      height: '75%',
+      data: {
+        berichtsheft: berichtsheft.uuid,
+      },
     });
-
-    await alert.present();
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed', result);
+    });
+    console.log(berichtsheft);
   }
   async deleteBerichtsheft(berichtsheft) {
     const alert = await this.alertCtrl.create({
@@ -145,5 +137,33 @@ export class BerichtsheftPage implements OnInit {
     });
 
     await alert.present();
+  }
+}
+
+export interface EditBereichDialogData {
+  berichtsheft: string;
+}
+@Component({
+  selector: 'edit-bereich-dialog',
+  templateUrl: 'edit-bereich-modal/edit-bereich-modal.component.html',
+})
+export class EditBereichDialogComponent {
+  public berichtsheftData: Berichtsheft = {} as Berichtsheft;
+
+  constructor(
+    public dialogRef: MatDialogRef<EditBereichDialogComponent>,
+    private apiBerichtsheft: APIBerichtshefteService,
+    @Inject(MAT_DIALOG_DATA) public data: EditBereichDialogData
+  ) {
+    this.init();
+  }
+  async init() {
+    (await this.apiBerichtsheft.get(this.data.berichtsheft))
+    .subscribe((res) => {
+      this.berichtsheftData = res;
+    });
+  }
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 }

@@ -5,8 +5,9 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { BerichtsheftPage } from './berichtsheft.page';
+import { BerichtsheftPage, EditBereichDialogComponent } from './berichtsheft.page';
 import { MaterialModule } from '../material.service';
+import { KWSelectorComponent } from '../components/kwselector/kwselector.component';
 
 const routes: Routes = [
   {
@@ -16,6 +17,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
+  entryComponents: [EditBereichDialogComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -24,6 +26,6 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [BerichtsheftPage]
+  declarations: [BerichtsheftPage, KWSelectorComponent, EditBereichDialogComponent ]
 })
 export class BerichtsheftPageModule {}
