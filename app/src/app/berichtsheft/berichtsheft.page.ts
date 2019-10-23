@@ -4,6 +4,8 @@ import { Berichtsheft } from '../api/berichtsheft';
 import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
+import * as moment from 'moment';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-berichtsheft',
@@ -112,6 +114,7 @@ export class BerichtsheftPage implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed', result);
+      this.refresh();
     });
     console.log(berichtsheft);
   }
@@ -150,18 +153,36 @@ export interface EditBereichDialogData {
 export class EditBereichDialogComponent {
   public berichtsheftData: Berichtsheft = {} as Berichtsheft;
 
+  public bereichFormGroup: FormGroup;
   constructor(
+    private formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<EditBereichDialogComponent>,
     private apiBerichtsheft: APIBerichtshefteService,
     @Inject(MAT_DIALOG_DATA) public data: EditBereichDialogData
   ) {
     this.init();
+    const now = moment();
+    this.bereichFormGroup = this.formBuilder.group({
+      start: this.formBuilder.control(`${ now.format('YYYY') }-W${ now.format('w') }`, Validators.required),
+      ende: this.formBuilder.control(`${ now.format('YYYY') }-W${ now.format('w') }`, Validators.required),
+    });
+
   }
   async init() {
     (await this.apiBerichtsheft.get(this.data.berichtsheft))
     .subscribe((res) => {
+      console.log(res)
       this.berichtsheftData = res;
+      const start = moment(this.berichtsheftData.start);
+      const ende = moment(this.berichtsheftData.ende);
+      this.bereichFormGroup = this.formBuilder.group({
+        start: this.formBuilder.control(`${ start.format('YYYY') }-W${ start.format('w') }`, Validators.required),
+        ende: this.formBuilder.control(`${ ende.format('YYYY') }-W${ ende.format('w') }`, Validators.required),
+      });
     });
+  }
+  async save() {
+    this.dialogRef.close();
   }
   onNoClick(): void {
     this.dialogRef.close();
