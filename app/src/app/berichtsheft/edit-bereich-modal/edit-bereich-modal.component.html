@@ -1,9 +1,8 @@
 <h1 mat-dialog-title>{{ berichtsheftData.name || data.berichtsheft }}</h1>
 <div mat-dialog-content>
   <div style="display:block; height: 80%;">
-    <p>{{ berichtsheftData.name }}</p>
-    <h5>Start:</h5>
     <form [formGroup]="bereichFormGroup">
+      <h5>Start:</h5>
       <mat-form-field>
         <input matInput type="week" formControlName="start" required> <!--  min="2018-W18" max="2018-W26"  -->
       </mat-form-field>

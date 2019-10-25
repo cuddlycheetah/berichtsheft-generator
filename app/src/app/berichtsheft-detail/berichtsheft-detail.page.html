@@ -5,6 +5,8 @@
 </ion-header>
 
 <ion-content>
-  <kwselector></kwselector>
+  <mat-form-field>
+    <input matInput type="week" name="week" [(ngModel)]="value" required> <!--  min="2018-W18" max="2018-W26"  -->
+  </mat-form-field>
   <pre>{{ berichtsheftDetails | json }}</pre>
 </ion-content>

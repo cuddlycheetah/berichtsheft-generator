@@ -113,8 +113,9 @@ export class BerichtsheftPage implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed', result);
-      this.refresh();
+      if (!!result) {
+        this.refresh();
+      }
     });
     console.log(berichtsheft);
   }
@@ -171,18 +172,31 @@ export class EditBereichDialogComponent {
   async init() {
     (await this.apiBerichtsheft.get(this.data.berichtsheft))
     .subscribe((res) => {
-      console.log(res)
       this.berichtsheftData = res;
       const start = moment(this.berichtsheftData.start);
       const ende = moment(this.berichtsheftData.ende);
+      const startKW = `${ start.format('YYYY') }-W${ start.format('w') }`;
+      const endeKW = `${ ende.format('YYYY') }-W${ ende.format('w') }`;
+
+      console.log(res, start, startKW, ende, endeKW);
+
       this.bereichFormGroup = this.formBuilder.group({
-        start: this.formBuilder.control(`${ start.format('YYYY') }-W${ start.format('w') }`, Validators.required),
-        ende: this.formBuilder.control(`${ ende.format('YYYY') }-W${ ende.format('w') }`, Validators.required),
+        start: this.formBuilder.control(startKW, Validators.required),
+        ende: this.formBuilder.control(endeKW, Validators.required),
       });
     });
   }
+  toDate(kwFormat) {
+    return moment(kwFormat.replace('W', ''), 'YYYY-w').toDate();
+  }
   async save() {
-    this.dialogRef.close();
+    (await this.apiBerichtsheft.update(this.berichtsheftData.uuid, {
+      start: this.toDate(this.bereichFormGroup.value.start),
+      ende: this.toDate(this.bereichFormGroup.value.ende),
+    }))
+    .subscribe(res2 => {
+      this.dialogRef.close(true);
+    });
   }
   onNoClick(): void {
     this.dialogRef.close();

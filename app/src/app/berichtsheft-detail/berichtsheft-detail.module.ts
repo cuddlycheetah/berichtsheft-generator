@@ -10,7 +10,6 @@ import { MaterialModule } from '../material.service';
 import { OwlDateTimeModule, OWL_DATE_TIME_LOCALE, OWL_DATE_TIME_FORMATS } from 'ng-pick-datetime';
 import { MY_MOMENT_FORMATS } from '../app.module';
 import { OwlMomentDateTimeModule, OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS } from 'ng-pick-datetime-moment';
-import { KWSelectorComponent } from '../components/kwselector/kwselector.component';
 
 const routes: Routes = [
   {
@@ -36,7 +35,6 @@ const routes: Routes = [
   ],
   declarations: [
     BerichtsheftDetailPage,
-    KWSelectorComponent
   ]
 })
 export class BerichtsheftDetailPageModule {}
