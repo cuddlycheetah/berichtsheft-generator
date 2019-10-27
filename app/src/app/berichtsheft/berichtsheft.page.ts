@@ -55,7 +55,7 @@ export class BerichtsheftPage implements OnInit {
           handler: async (res) => {
             if (!!res.name && res.name.length > 3) {
               (await this.apiBerichtsheft.create(res.name))
-              .subscribe((res: any) => {
+              .subscribe(() => {
                 this.refresh();
               });
             }

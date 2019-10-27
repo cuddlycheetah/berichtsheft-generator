@@ -5,12 +5,12 @@ import { Router } from '@angular/router';
 import { API_HOST } from '../app.module';
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
-import { Berichtsheft } from './berichtsheft';
+import { Wochenbericht } from './wochenbericht';
 
 @Injectable({
   providedIn: 'root'
 })
-export class APIBerichtshefteService {
+export class APIWochenberichteService {
 
   constructor(
     private http: HttpClient,
@@ -18,65 +18,54 @@ export class APIBerichtshefteService {
     private alertCtrl: AlertController,
     private router: Router
   ) { }
-  async getAll() {
+  async get(berichtsheft: string, jahr: number, kw: number) {
     const loading = await this.loadingCtrl.create({
-      message: 'Lade Berichtshefte',
+      message: 'Lade Wochenbericht',
       translucent: true,
     });
     await loading.present();
-    return this.http.get(`${ API_HOST }/api/v1/self/berichtshefte`)
+    return this.http.get(`${ API_HOST }/api/v1/self/berichtsheft/${ berichtsheft }/wochenbericht/${ jahr }/${ kw }`)
     .pipe(
       finalize(() => loading.dismiss())
-    ) as Observable<Berichtsheft[]>;
+    ) as Observable<Wochenbericht>;
   }
-  async get(berichtsheft: string) {
+  async create(berichtsheft: string, jahr: number, kw: number, templateId: string) {
     const loading = await this.loadingCtrl.create({
-      message: 'Lade Berichtsheft',
+      message: 'Erstelle Wochenbericht',
       translucent: true,
     });
     await loading.present();
-    return this.http.get(`${ API_HOST }/api/v1/self/berichtsheft/${ berichtsheft }`)
-    .pipe(
-      finalize(() => loading.dismiss())
-    ) as Observable<Berichtsheft>;
-  }
-  async create(name: string) {
-    const loading = await this.loadingCtrl.create({
-      message: 'Erstelle Berichtsheft',
-      translucent: true,
-    });
-    await loading.present();
-    return this.http.post(`${ API_HOST }/api/v1/self/berichtsheft`, {
-      name
+    return this.http.post(`${ API_HOST }/api/v1/self/berichtsheft/${ berichtsheft }/wochenbericht/${ jahr }/${ kw }`, {
+      templateId
     })
     .pipe(
       finalize(() => loading.dismiss())
     ) as Observable<any>;
   }
-  async update(uuid: string, updateData: any) {
+  async update(berichtsheft: string, wochenbericht: string, updateData: any) {
     const loading = await this.loadingCtrl.create({
-      message: 'Ändere Berichtsheft',
+      message: 'Ändere Wochenbericht',
       translucent: true,
     });
     await loading.present();
-    return this.http.put(`${ API_HOST }/api/v1/self/berichtsheft/${ uuid }`, updateData)
+    return this.http.put(`${ API_HOST }/api/v1/self/berichtsheft/${ berichtsheft }/wochenbericht/${ wochenbericht }`, updateData)
     .pipe(
       finalize(() => loading.dismiss())
     ) as Observable<any>;
   }
-  async delete(berichtsheft: string) {
+  async delete(berichtsheft: string, wochenbericht: string) {
     const loading = await this.loadingCtrl.create({
-      message: 'Lösche Berichtsheft',
+      message: 'Lösche Wochenbericht',
       translucent: true,
     });
     await loading.present();
-    return this.http.delete(`${ API_HOST }/api/v1/self/berichtsheft/${ berichtsheft }`)
+    return this.http.delete(`${ API_HOST }/api/v1/self/berichtsheft/${ berichtsheft }/wochenbericht/${ wochenbericht }`)
     .pipe(
       finalize(() => loading.dismiss())
     ) as Observable<any>;
   }
-  // self/berichtsheft/' + berichtsheft + '/wochenbericht/' + jahr + '/' + kw
 }
+
 /*
 === LEGACY CODE ===
 get: function(berichtsheft) {
