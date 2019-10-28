@@ -16,6 +16,9 @@
         <mat-option *ngFor="let vorlage of listVorlage" [value]="vorlage.uuid">{{ vorlage.name }}</mat-option>
       </mat-select>
     </mat-form-field>
+    <button mat-icon-button (click)="refreshTemplates()" aria-label="Erneuern">
+      <mat-icon>refresh</mat-icon>
+    </button>
     <button mat-button color="primary" (click)="createWochenbericht()">
       <mat-icon>plus</mat-icon> Erstellen
     </button>
@@ -25,6 +28,7 @@
       <mat-form-field style="margin-left: 2rem;">
         <input matInput type="number" placeholder="ID" formControlName="id" required>
       </mat-form-field>
+      <mat-checkbox formControlName="renwIDCheck">ID automatisch ändern(sobald gespeichert wird)</mat-checkbox>
 
       <mat-tab-group>
         <mat-tab formArrayName="tage" *ngFor="let tag of wochenberichtsForm.controls.tage.controls; let i = index">
@@ -60,15 +64,15 @@
               <div formArrayName="taetigkeiten" *ngFor="let taetigkeit of wochenberichtsForm.controls.tage.controls[i].controls.taetigkeiten.controls; let j = index">
                 <section [formGroupName]="j" style="margin-top: 0.5rem; display: flex; justify-content: start;">
                   <mat-form-field style="order: 0;" [hidden]="taetigkeit.value[0].length <= 0">
-                    <input matInput formControlName="0" readonly>
+                    <input matInput formControlName="0" readonly disabled>
                   </mat-form-field>
-                  <mat-form-field style="order: 1; width: 50%; max-width: 25rem;">
-                    <textarea matInput formControlName="1" placeholder="Bezeichnung" style="max-height: 2rem; resize: none;"></textarea>
+                  <mat-form-field style="order: 1; width: 65%; max-width: 25rem;">
+                    <textarea matInput formControlName="1" placeholder="Bezeichnung" style="max-height: 225rem; resize: none;"></textarea>
                   </mat-form-field>
                   <mat-form-field style="order: 2; width: 25%; max-width: 5rem;">
-                    <input matInput formControlName="2" style="height: 1.85rem;" placeholder="Dauer">
+                    <input matInput formControlName="2" style="height: 2.3rem;" placeholder="Dauer">
                   </mat-form-field>
-                  <button mat-flat-button style="margin-top: 0.5rem; order: 3;" color="primary" (click)="wochenberichtsForm.controls.tage.controls[i].controls.taetigkeiten.removeAt(j)">
+                  <button mat-flat-button style="margin-top: 0.5rem; order: 3;" color="primary" (click)="deleteTaetigkeit(i, j)">
                     <mat-icon>delete</mat-icon>
                   </button>
                 </section>
@@ -83,7 +87,10 @@
         </mat-tab>
       </mat-tab-group>
     </form>
-    <button mat-button color="primary" type="submit" (click)="saveChangedTagesberichtsAndWochenbericht()" [disabled]="wochenberichtsForm.invalid">
+    <button mat-button color="primary" type="submit" (click)="print()" [disabled]="wochenberichtsForm.dirty">
+      <mat-icon>save</mat-icon> Exportieren
+    </button>
+    <button mat-button color="primary" type="submit" (click)="saveChangedTagesberichtsAndWochenbericht()" [disabled]="wochenberichtsForm.invalid || !wochenberichtsForm.dirty">
       <mat-icon>save</mat-icon> Speichern
     </button>
     <button mat-button color="warn" type="delete" (click)="deleteWochenbericht()" [disabled]="!!wochenberichtDetails.free">

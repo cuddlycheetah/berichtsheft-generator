@@ -1,14 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Berichtsheft } from '../api/berichtsheft';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
-import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl, FormArray } from '@angular/forms';
 import { APIWochenberichteService } from '../api/apiwochenberichte.service';
 import { Wochenbericht } from '../api/wochenbericht';
 import { APITemplatesService } from '../api/apitemplates.service';
 import Vorlage from '../api/vorlage';
 import { forkJoin } from 'rxjs';
 import { AlertController } from '@ionic/angular';
+import { APITagesberichtService } from '../api/apitagesbericht.service';
+import { APIQueueService } from '../api/apiqueue.service';
 
 @Component({
   selector: 'app-berichtsheft-detail',
@@ -30,13 +32,19 @@ export class BerichtsheftDetailPage implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
+
+    private apiTagesbericht: APITagesberichtService,
     private apiWochenbericht: APIWochenberichteService,
     private apiTemplates: APITemplatesService,
+    private apiQueue: APIQueueService,
+
     private formBuilder: FormBuilder,
     private alertCtrl: AlertController,
   ) {
     this.wochenberichtsForm = this.formBuilder.group({
       id: [''],
+      renwIDCheck: [false],
       tage: this.formBuilder.array([]),
     });
   }
@@ -64,7 +72,11 @@ export class BerichtsheftDetailPage implements OnInit {
     });
     this.kwSel.setValue(
       now.toDate().valueOf() <= ende.toDate().valueOf()
-      ? `${ now.format('YYYY') }-W${ now.format('w') }`
+      ? (
+        now.toDate().valueOf() <= start.toDate().valueOf()
+        ? this.kwMin
+        : `${ now.format('YYYY') }-W${ now.format('w') }`
+      )
       : this.kwMax
     );
   }
@@ -76,22 +88,43 @@ export class BerichtsheftDetailPage implements OnInit {
     ]);
     return arr;
   }
+  async deleteTaetigkeit(i, j) {
+    const arr = this.wochenberichtsForm.get('tage').get(i.toString()).get('taetigkeiten') as FormArray;
+
+    const alert = await this.alertCtrl.create({
+      header: 'Bestätigung erforderlich!',
+      message: 'Möchten sie wirklich diese Tötigkeit entfernen?',
+      buttons: [
+        {
+          text: 'Abbrechen',
+          role: 'cancel',
+          cssClass: 'secondary',
+        }, {
+          text: 'Ja, löschen!',
+          handler: () => arr.removeAt(j),
+        }
+      ]
+    });
+
+    await alert.present();
+  }
   async loadWochenbericht(jahr, kw) {
     console.log(jahr, kw);
     (await this.apiWochenbericht.get(this.berichtsheftDetails.uuid, jahr, kw))
     .subscribe(res => {
       console.log(res);
       this.wochenberichtDetails = res;
-
       // Formular aus Arrays/Groups rekonstruieren
       if (!!this.wochenberichtDetails.free) {
         this.wochenberichtsForm = this.formBuilder.group({
-          id: [''],
+          id: ['', Validators.required],
+          renwIDCheck: [false],
           tage: this.formBuilder.array([]),
         });
       } else {
         this.wochenberichtsForm = this.formBuilder.group({
           id: [this.wochenberichtDetails.id, Validators.required],
+          renwIDCheck: [false],
           tage: this.formBuilder.array(
             this.wochenberichtDetails.tage.map((tag) => {
               const group = this.formBuilder.group({
@@ -100,7 +133,7 @@ export class BerichtsheftDetailPage implements OnInit {
                 start: [tag.start, Validators.required],
                 ende: [tag.ende, Validators.required],
                 pause: [tag.pause, Validators.required],
-  //            erweitert: [tag.uuid, Validators.required],
+  //            erweitert: [tag.uuid, Validators.required], // we dont do that here
                 taetigkeiten: this.formBuilder.array(
                   tag.taetigkeiten.map(taetigkeit => this.formBuilder.array([
                     this.formBuilder.control(taetigkeit[0] || ''), // legacy support
@@ -139,7 +172,7 @@ export class BerichtsheftDetailPage implements OnInit {
   async deleteWochenbericht() {
     const alert = await this.alertCtrl.create({
       header: 'Bestätigung erforderlich!',
-      message: 'Möchten sie wirklich die Vorlage löschen?',
+      message: 'Möchten sie wirklich diesen Wochenbericht löschen?',
       buttons: [
         {
           text: 'Abbrechen',
@@ -162,14 +195,52 @@ export class BerichtsheftDetailPage implements OnInit {
     await alert.present();
   }
   async saveChangedTagesberichtsAndWochenbericht() {
-    const original = JSON.stringify({
+    const original = {
       id: this.wochenberichtDetails.id,
       tage: this.wochenberichtDetails.tage.map(tag => {
         delete tag.erweitert; // remove legacy shitfuck
         return tag;
       }),
-    });
-    const formVersion = JSON.stringify(this.wochenberichtsForm.value);
-    console.log('changed', original !== formVersion, original, formVersion);
+    };
+    const formVersion = this.wochenberichtsForm.value;
+    const updateWochenbericht = {};
+    const updateTage = [];
+
+    for (const formTag of formVersion.tage) {
+      const originalTag = original.tage.filter((oTag) => oTag.id === formTag.id)[0];
+      const isModified = JSON.stringify(formTag) !== JSON.stringify(originalTag);
+      if (isModified) {
+        /*if (!!originalTag) {
+          updateTage.push(await this.apiTagesbericht.create(this.wochenberichtDetails.uuid, formTag.id));
+        }*/
+        (await this.apiTagesbericht.update(this.wochenberichtDetails.uuid, originalTag.uuid, formTag))
+        .subscribe(res => console.log(res));
+      }
+    }
+    console.log(updateTage);
+    console.log('orig=', original, 'form=', formVersion);
+    if (!!formVersion.renwIDCheck) { // renew id if checked
+      (await this.apiWochenbericht.update(this.berichtsheftDetails.uuid, this.wochenberichtDetails.uuid, {
+        id: false,
+      }))
+      .subscribe(res => console.log(res));
+    } else {
+      if (this.wochenberichtDetails.id !== formVersion.id) {
+        (await this.apiWochenbericht.update(this.berichtsheftDetails.uuid, this.wochenberichtDetails.uuid, {
+          id: formVersion.id,
+        }))
+        .subscribe(res => console.log(res));
+      }
+    }
+    const jahr = this.kwSel.value.split('-W')[0], kw = this.kwSel.value.split('-W')[1];
+    this.wochenberichtsForm.get('renwIDCheck').setValue(false);
+    this.loadWochenbericht(jahr, kw);
+  }
+  async print() {
+    (await this.apiQueue.createEntry(this.wochenberichtDetails.uuid))
+    .subscribe(res => {
+      console.log(res);
+      this.router.navigate(['main', 'queue']);
+    })
   }
 }

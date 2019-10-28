@@ -50,7 +50,6 @@ export class APIQueueService {
       data: [],
       realIndex: 0,
     }).data;
-    cuck = cuck.sort((a, b) => new Date(a.auftragTime).valueOf() > new Date(b.auftragTime).valueOf()); // sorting
     cuck = cuck.map((e) => {
       if (!!e.name) { e.name = e.name.substring(e.name.indexOf('|') + 2); }
       if (!!e.auftragTime) {

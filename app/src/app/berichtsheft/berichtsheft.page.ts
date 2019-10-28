@@ -31,7 +31,13 @@ export class BerichtsheftPage implements OnInit {
   async refresh() {
     (await this.apiBerichtsheft.getAll())
     .subscribe((data: Berichtsheft[]) => {
-      this.listBerichtshefte = data;
+      this.listBerichtshefte = data.map((berichtsheft: any) => {
+        const start = moment(berichtsheft.start);
+        const ende = moment(berichtsheft.ende);
+        berichtsheft.startKW = `${ start.format('YYYY') } KW${ start.format('w') }`;
+        berichtsheft.endeKW = `${ ende.format('YYYY') } KW${ ende.format('w') }`;
+        return berichtsheft;
+      });
     });
   }
 
@@ -187,7 +193,7 @@ export class EditBereichDialogComponent {
     });
   }
   toDate(kwFormat) {
-    return moment(kwFormat.replace('W', ''), 'YYYY-w').toDate();
+    return moment(kwFormat.replace('W', ''), 'YYYY-w').hour(0).minute(0).seconds(0).milliseconds(0).toDate();
   }
   async save() {
     (await this.apiBerichtsheft.update(this.berichtsheftData.uuid, {
