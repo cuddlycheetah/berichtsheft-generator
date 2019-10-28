@@ -28,7 +28,7 @@ export class APIQueueService {
   private queueFilter(cuck) {
     console.log(cuck);
     const NOW = new Date().valueOf();
-    cuck = cuck.sort((a, b) => new Date(a.auftragTime).valueOf() > new Date(b.auftragTime).valueOf()); // sorting
+    cuck.sort((a, b) => new Date(a.auftragTime).valueOf() < new Date(b.auftragTime).valueOf()); // sorting
     cuck = cuck.filter(e => {
       const deletionTime = new Date(e.auftragTime);
       deletionTime.setDate(deletionTime.getDate() + 1);
@@ -50,6 +50,7 @@ export class APIQueueService {
       data: [],
       realIndex: 0,
     }).data;
+    cuck = cuck.sort((a, b) => new Date(a.auftragTime).valueOf() > new Date(b.auftragTime).valueOf()); // sorting
     cuck = cuck.map((e) => {
       if (!!e.name) { e.name = e.name.substring(e.name.indexOf('|') + 2); }
       if (!!e.auftragTime) {
@@ -74,6 +75,7 @@ export class APIQueueService {
         socketData.connectionState = 'Verbunden';
         if (!!data.waiting) {
           socketData.queueData.waiting = data.waiting;
+          console.log(data.waiting);
         }
         if (!!data.queue) {
           socketData.queueData.queue = this.queueFilter(data.queue);
@@ -97,5 +99,17 @@ export class APIQueueService {
       };
     });
     return observable;
+  }
+
+  async createEntry(wochenbericht: string) {
+    const loading = await this.loadingCtrl.create({
+      message: 'Exportiere Tagesbericht',
+      translucent: true,
+    });
+    await loading.present();
+    return this.http.post(`${ API_HOST }/api/v1/queue/${ wochenbericht }`, {})
+    .pipe(
+      finalize(() => loading.dismiss())
+    ) as Observable<any>;
   }
 }
