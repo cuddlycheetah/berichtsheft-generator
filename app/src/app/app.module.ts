@@ -58,3 +58,9 @@ export const ionicModuleForRoot = IonicModule.forRoot();
   bootstrap: [AppComponent]
 })
 export class AppModule {}
+/*
+
+tsconfig.json
+  "entryModule": "./src/app/app.module#AppModule",
+  "genDir": "../ngfactory",
+*/
