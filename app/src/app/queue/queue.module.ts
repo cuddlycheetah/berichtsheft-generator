@@ -6,7 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { QueuePage } from './queue.page';
-import { MaterialModule } from '../material.service';
+import { MaterialModule } from '../material.module';
 import { MomentModule } from 'angular2-moment';
 
 export const routerModuleForChild = RouterModule.forChild([

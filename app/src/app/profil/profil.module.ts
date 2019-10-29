@@ -6,7 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { ProfilPage } from './profil.page';
-import { MaterialModule } from '../material.service';
+import { MaterialModule } from '../material.module';
 
 export const routerModuleForChild = RouterModule.forChild([
   {

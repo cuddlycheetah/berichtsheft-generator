@@ -14,9 +14,9 @@ import { OwlDateTimeModule, OWL_DATE_TIME_LOCALE, OWL_DATE_TIME_FORMATS } from '
 import { OwlMomentDateTimeModule, OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS } from 'ng-pick-datetime-moment';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { InterceptorProvider } from './interceptor.service';
+import { InterceptorProvider } from './interceptor.provider';
 import { StorageServiceModule} from 'angular-webstorage-service';
-import { MaterialModule } from './material.service';
+import { MaterialModule } from './material.module';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 export const ionicModuleForRoot = IonicModule.forRoot();

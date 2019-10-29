@@ -6,7 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { VorlagenDetailPage } from './vorlagen-detail.page';
-import { MaterialModule } from '../material.service';
+import { MaterialModule } from '../material.module';
 import { OwlDateTimeModule, OWL_DATE_TIME_LOCALE, OWL_DATE_TIME_FORMATS, DateTimeAdapter } from 'ng-pick-datetime';
 import { OwlMomentDateTimeModule } from 'ng-pick-datetime-moment';
 import { MinuteCountDateTimeAdapter } from '../adapter/minuteCountDateAdapter';

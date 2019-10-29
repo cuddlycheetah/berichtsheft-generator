@@ -6,7 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { BerichtsheftPage, EditBereichDialogComponent } from './berichtsheft.page';
-import { MaterialModule } from '../material.service';
+import { MaterialModule } from '../material.module';
 import { KWSelectorComponent } from '../components/kwselector/kwselector.component';
 
 
