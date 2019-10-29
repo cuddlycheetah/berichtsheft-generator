@@ -1,0 +1,25 @@
+<!--<ion-header>
+  <ion-toolbar>
+    <ion-title>Vorlagen</ion-title>
+  </ion-toolbar>
+</ion-header>-->
+
+<ion-content>
+  <!-- Vorlage erstellen -->
+  <button mat-raised-button color="primary" (click)="mewDocument()">
+    <mat-icon>add</mat-icon>
+    HINZUFÜGEN
+  </button>
+
+  <mat-card style="max-width: 30rem; width: 100%; margin-top: 0.5rem;" *ngFor="let vorlage of listVorlage">
+    <mat-card-header>
+      <mat-icon mat-card-avatar>book</mat-icon>
+      <mat-card-title>{{ vorlage.name }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-actions>
+      <button mat-button (click)="editVorlage(vorlage)">Bearbeiten</button>
+      <button mat-button (click)="deleteVorlage(vorlage)">Löschen</button>
+    </mat-card-actions>
+  </mat-card>
+
+</ion-content>

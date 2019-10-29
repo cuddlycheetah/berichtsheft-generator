@@ -1,0 +1,35 @@
+<!--<ion-header>
+  <ion-toolbar>
+    <ion-title>Berichtsheft</ion-title>
+  </ion-toolbar>
+</ion-header>-->
+
+<ion-content>
+  <!-- Berichtsheft erstellen -->
+  <button mat-raised-button color="primary" (click)="mewDocument()">
+    <mat-icon>add</mat-icon>
+    HINZUFÜGEN
+  </button>
+
+  <mat-card style="max-width: 30rem; width: 100%; margin-top: 0.5rem;" *ngFor="let berichtsheft of listBerichtshefte">
+    <mat-card-header>
+      <mat-icon mat-card-avatar>book</mat-icon>
+      <mat-card-title>{{ berichtsheft.name }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <pre>Wochenberichte: {{ berichtsheft.berichteCount }}
+ID Offset: {{ berichtsheft.kwoffset }}
+Start: {{ berichtsheft.startKW }}
+Ende: {{ berichtsheft.endeKW }}</pre>
+    <p class="mat-error" [hidden]="!!berichtsheft.start">Bitte wählen sie den Gültigkeitsbereich aus um das Berichtsheft zu öffnen</p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-flat-button (click)="openBerichtsheft(berichtsheft)" [disabled]="!!!berichtsheft.start" color="primary">Öffnen</button>
+      <button mat-flat-button (click)="editBerichtsheftOffset(berichtsheft)" color="primary">Offset ändern</button>
+      <button mat-flat-button (click)="editBerichtsheftBereich(berichtsheft)" color="primary">Bereich festlegen</button>
+      <button mat-flat-button (click)="deleteBerichtsheft(berichtsheft)" color="warn">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</ion-content>

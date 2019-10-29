@@ -1,0 +1,19 @@
+<h1 mat-dialog-title>{{ berichtsheftData.name || data.berichtsheft }}</h1>
+<div mat-dialog-content>
+  <div style="display:block; height: 80%;">
+    <form [formGroup]="bereichFormGroup">
+      <h5>Start:</h5>
+      <mat-form-field>
+        <input matInput type="week" formControlName="start" required> <!--  min="2018-W18" max="2018-W26"  -->
+      </mat-form-field>
+      <h5>Ende:</h5>
+      <mat-form-field>
+        <input matInput type="week" formControlName="ende" [min]="bereichFormGroup.value.start" max="2030-W52" required> <!--  min="2018-W18" max="2018-W26"  -->
+      </mat-form-field>
+    </form>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button color="warn" (click)="onNoClick()">Abbrechen</button>
+  <button mat-button color="primary" (click)="save()" [disabled]="!bereichFormGroup.valid" cdkFocusInitial>Speichern</button>
+</div>
