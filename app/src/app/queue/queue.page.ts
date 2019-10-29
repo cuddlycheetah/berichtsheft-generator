@@ -35,7 +35,19 @@ export class QueuePage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.session = this.apiQueue.getSocket()
-    .subscribe((data: any) => this.socketData.next(data));
+    .subscribe((data: any) => {
+      //data.queueData.queue.sort((a, b) => new Date(a.auftragTime).valueOf() < new Date(b.auftragTime).valueOf()); // sorting
+      const sortedData = data;
+      const now = new Date().valueOf();
+      const sortedQueue = data.queueData.queue.reduce((sorted, entry) => {
+        sorted[ now - new Date(entry.auftragTime).valueOf() ] = entry;
+        return sorted;
+      }, {});
+      console.log(sortedQueue);
+      sortedData.queueData.queue = Object.values(sortedQueue);
+
+      this.socketData.next(sortedData);
+    });
   }
   ngOnDestroy() {
     if (!!this.session) { this.session.unsubscribe(); }

@@ -1,0 +1,39 @@
+<!-- 
+  url("/assets/img/bg.jpg") center center / cover no-repeat fixed
+-->
+<ion-content>
+  <!-- [hidden]="!authService.hasTokenValidationFailed()" -->
+  <div id="fullBG">
+    <form [formGroup]="loginFormGroup" id="authForm">
+      <div text-center>
+        <img src="/assets/begelogo.svg">
+        <h1>Authentifizierung</h1>
+      </div>
+      <p>
+        <mat-form-field class="fullWidth">
+          <input matInput placeholder="Benutzername" type="text" formControlName="username" required>
+        </mat-form-field>
+        <mat-form-field class="fullWidth">
+          <input matInput placeholder="Passwort" type="password" formControlName="password" required>
+        </mat-form-field>
+        <mat-form-field class="fullWidth">
+          <mat-label>Betrieb</mat-label>
+          <mat-select formControlName="betrieb" required>
+            <mat-option *ngFor="let betrieb of dataBetriebe | async" [value]="betrieb.uuid">
+              {{ betrieb.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </p>
+      <p class="submitButtonRow">
+        <button class="submitButton" mat-raised-button color="primary" type="submit" (click)="login()" [disabled]="loginFormGroup.invalid">Anmelden</button>
+      </p>
+      <mat-nav-list style="overflow: hidden;">
+        <a mat-list-item href="https://paypal.me/4thebadwoofsky" target="_blank">
+          <mat-icon matListIcon>credit_card</mat-icon>
+          <h3 matLine>Donate</h3>
+        </a>
+      </mat-nav-list>
+    </form>
+  </div>
+</ion-content>

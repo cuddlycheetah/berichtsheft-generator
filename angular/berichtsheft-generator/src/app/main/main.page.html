@@ -1,0 +1,30 @@
+<ion-tabs>
+  <ion-tab-bar slot="top">
+      <ion-tab-button mode="md" tab="info">
+      <img src="/assets/be.svg" style="width: 4rem;padding: 0.5rem;">
+    </ion-tab-button>
+
+    <ion-tab-button tab="berichtsheft">
+      <mat-icon>class</mat-icon>
+      <ion-label>Berichtsheft</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="queue">
+      <mat-icon>description</mat-icon>
+      <ion-label>PDFs</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="vorlagen">
+      <mat-icon>file_copy</mat-icon>
+      <ion-label>Vorlagen</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="profil">
+      <mat-icon>person</mat-icon>
+      <ion-label>Profil</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button (click)="logout()">
+      <mat-icon>exit_to_app</mat-icon>
+      <ion-label>Abmelden</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+
+</ion-tabs>

@@ -5,6 +5,101 @@
 </ion-header>
 
 <ion-content>
-  <kwselector></kwselector>
-  <pre>{{ berichtsheftDetails | json }}</pre>
+  <mat-form-field>
+    <input matInput type="week" name="week" [min]="kwMin" [max]="kwMax" [formControl]="kwSel" required> <!--  min="2018-W18" max="2018-W26"  -->
+  </mat-form-field>
+  <section [hidden]="!wochenberichtDetails.free">
+    <mat-form-field>
+      <mat-label>Wochentemplate</mat-label>
+      <mat-select required [(ngModel)]="selectedTemplate">
+        <mat-option value="">Kein Template</mat-option>
+        <mat-option *ngFor="let vorlage of listVorlage" [value]="vorlage.uuid">{{ vorlage.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button mat-icon-button (click)="refreshTemplates()" aria-label="Erneuern">
+      <mat-icon>refresh</mat-icon>
+    </button>
+    <button mat-button color="primary" (click)="createWochenbericht()">
+      <mat-icon>plus</mat-icon> Erstellen
+    </button>
+  </section>
+  <section [hidden]="!!wochenberichtDetails.free">
+    <form [formGroup]="wochenberichtsForm">
+      <mat-form-field style="margin-left: 2rem;">
+        <input matInput type="number" placeholder="ID" formControlName="id" required>
+      </mat-form-field>
+      <mat-checkbox formControlName="renwIDCheck">ID automatisch ändern(sobald gespeichert wird)</mat-checkbox>
+
+      <mat-tab-group>
+        <mat-tab formArrayName="tage" *ngFor="let tag of wochenberichtsForm.controls.tage.controls; let i = index">
+          <ng-template mat-tab-label>{{ dayNames[i] }}</ng-template>
+
+          <section [formGroupName]="i">
+            <input type="hidden" formControlName="uuid">
+
+            <section style="margin-left: 2rem;">
+              <section class="zeit">
+                <h3>Start:</h3>
+                <owl-date-time-inline formControlName="start" pickerType="timer"></owl-date-time-inline>
+              </section>
+              <section class="zeit">
+                <h3>Ende:</h3>
+                <owl-date-time-inline formControlName="ende" pickerType="timer"></owl-date-time-inline>
+              </section>
+              <section class="zeit">
+                <h3>Pause:</h3>
+                <owl-date-time-inline formControlName="pause" pickerType="timer"></owl-date-time-inline>  
+              </section>
+              <div style="clear:both;"></div>
+            </section>
+
+            <section style="margin-left: 2rem; margin-top: 0.5rem;">
+              <mat-checkbox formControlName="krank">Freier Tag/Krank</mat-checkbox>
+              <mat-form-field style="margin-left: 2rem;">
+                <input matInput placeholder="Grund" formControlName="frei" min="1" max="4" [readonly]="!wochenberichtsForm.controls.tage.controls[i].value.krank" [attr.required]="!wochenberichtsForm.controls.tage.controls[i].value.krank">
+              </mat-form-field>
+            </section>
+
+            <section style="margin-left: 2rem; margin-top: 0.5rem;">
+              <div formArrayName="taetigkeiten" *ngFor="let taetigkeit of wochenberichtsForm.controls.tage.controls[i].controls.taetigkeiten.controls; let j = index">
+                <section [formGroupName]="j" style="margin-top: 0.5rem; display: flex; justify-content: start;">
+                  <mat-form-field style="order: 0;" [hidden]="taetigkeit.value[0].length <= 0">
+                    <input matInput formControlName="0" readonly>
+                  </mat-form-field>
+                  <mat-form-field style="order: 1; width: 65%; max-width: 25rem;">
+                    <textarea matInput formControlName="1" placeholder="Bezeichnung" style="max-height: 225rem; resize: none;"></textarea>
+                  </mat-form-field>
+                  <mat-form-field style="order: 2; width: 25%; max-width: 5rem;">
+                    <input matInput formControlName="2" style="height: 2.3rem;" placeholder="Dauer">
+                  </mat-form-field>
+                  <button mat-flat-button style="margin-top: 0.5rem; order: 3;" color="primary" (click)="deleteTaetigkeit(i, j)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </section>
+              </div>
+              <button mat-flat-button style="margin-top: 0.5rem;" color="primary" (click)="wochenberichtsForm.controls.tage.controls[i].controls.taetigkeiten.push(initTaetigkeit())">
+                <mat-icon>add</mat-icon>
+              </button>
+            </section>
+
+            <!-- <pre>{{ tag.value | json }}</pre> -->
+          </section>
+        </mat-tab>
+      </mat-tab-group>
+    </form>
+    <button mat-button color="primary" type="submit" (click)="print()" [disabled]="wochenberichtsForm.dirty">
+      <mat-icon>save</mat-icon> Exportieren
+    </button>
+    <button mat-button color="primary" type="submit" (click)="saveChangedTagesberichtsAndWochenbericht()" [disabled]="wochenberichtsForm.invalid || !wochenberichtsForm.dirty">
+      <mat-icon>save</mat-icon> Speichern
+    </button>
+    <button mat-button color="warn" type="delete" (click)="deleteWochenbericht()" [disabled]="!!wochenberichtDetails.free">
+      <mat-icon>delete_forever</mat-icon> Löschen
+    </button>
+  </section>
+  <!--
+    <pre>{{ berichtsheftDetails | json }}</pre>
+    <pre>{{ wochenberichtsForm.value | json }}</pre>
+    <pre>{{ wochenberichtDetails | json }}</pre>
+  -->
 </ion-content>
