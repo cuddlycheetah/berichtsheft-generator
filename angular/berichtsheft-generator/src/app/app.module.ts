@@ -11,7 +11,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { OwlDateTimeModule, OWL_DATE_TIME_LOCALE, OWL_DATE_TIME_FORMATS } from 'ng-pick-datetime';
-import { OwlMomentDateTimeModule, OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS } from 'ng-pick-datetime-moment';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { InterceptorProvider } from './interceptor.provider';
@@ -31,7 +30,6 @@ export const ionicModuleForRoot = IonicModule.forRoot();
     HttpClientModule,
     AppRoutingModule,
     OwlDateTimeModule,
-    OwlMomentDateTimeModule,
     MomentModule,
     MaterialModule,
     StorageServiceModule
@@ -53,7 +51,7 @@ export const ionicModuleForRoot = IonicModule.forRoot();
       monthYearA11yLabel: 'MMMM YYYY',
      },
     },
-    { provide: OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS, useValue: { useUtc: true } },
+    // { provide: OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS, useValue: { useUtc: true } },
   ],
   bootstrap: [AppComponent]
 })

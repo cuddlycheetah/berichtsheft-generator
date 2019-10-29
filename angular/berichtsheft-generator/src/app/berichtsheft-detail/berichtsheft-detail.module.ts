@@ -8,7 +8,6 @@ import { IonicModule } from '@ionic/angular';
 import { BerichtsheftDetailPage } from './berichtsheft-detail.page';
 import { MaterialModule } from '../material.module';
 import { OwlDateTimeModule, OWL_DATE_TIME_LOCALE, OWL_DATE_TIME_FORMATS, DateTimeAdapter } from 'ng-pick-datetime';
-import { OwlMomentDateTimeModule, OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS } from 'ng-pick-datetime-moment';
 import { MinuteCountDateTimeAdapter } from '../adapter/minuteCountDateAdapter';
 
 export const routerModuleForChild = RouterModule.forChild([
@@ -26,7 +25,6 @@ export const routerModuleForChild = RouterModule.forChild([
     IonicModule,
     MaterialModule,
     OwlDateTimeModule,
-    OwlMomentDateTimeModule,
     routerModuleForChild
   ],
   providers: [
