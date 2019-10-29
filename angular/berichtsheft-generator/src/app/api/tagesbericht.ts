@@ -1,6 +1,7 @@
 export interface Tagesbericht {
-    uuid: string;
-    id: string;
+    uuid: any;
+    _id?: string;
+    id: number;
     start: number;
     ende: number;
     pause: number;

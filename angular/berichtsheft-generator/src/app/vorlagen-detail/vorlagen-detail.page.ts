@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import Vorlage from '../api/vorlage';
 import { APITemplatesService } from '../api/apitemplates.service';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { Tagesbericht } from '../api/tagesbericht';
 
 const arrayToObject = (array, keyField) => array.reduce(
   (obj, item) => {
@@ -43,7 +44,7 @@ export class VorlagenDetailPage implements OnInit {
         this.initDay(4),
       ]),
     });
-
+    console.log(this.vorlagenDetailsInitial);
     this.vorlage.get('name').setValue(this.vorlagenDetailsInitial.name);
     if (this.vorlagenDetailsInitial.tage.length === 0) {
       this.vorlage.setControl('tage',
@@ -57,9 +58,12 @@ export class VorlagenDetailPage implements OnInit {
       );
     } else {
       this.vorlage.setControl('tage', this.formBuilder.array(
-        this.vorlagenDetailsInitial.tage.map(tag => {
+        this.vorlagenDetailsInitial.tage
+        .sort((a: Tagesbericht, b: Tagesbericht) => (a.id - b.id))
+        .map(tag => {
+          console.log('61', tag);
           return this.formBuilder.group({
-            uuid: [ tag.uuid || false ],
+            uuid: [ tag._id || false ],
             id: this.formBuilder.control(tag.id),
             start: this.formBuilder.control(tag.start, Validators.required),
             ende: this.formBuilder.control(tag.ende, Validators.required),
@@ -87,6 +91,14 @@ export class VorlagenDetailPage implements OnInit {
       this.formBuilder.control('0:00', [ Validators.required, Validators.maxLength(6) ])
     ]);
     return arr;
+  }
+  addTaetigkeit(i) {
+    const arr = (this.vorlage.get('tage') as FormGroup).controls[i].get('taetigkeiten') as FormArray;
+    arr.push(this.initTaetigkeit());
+  }
+  deleteTaetigkeit(i, j) {
+    const arr = (this.vorlage.get('tage') as FormGroup).controls[i].get('taetigkeiten') as FormArray;
+    arr.removeAt(j)
   }
   initDay(dayIndex) {
     return this.formBuilder.group({
@@ -183,7 +195,7 @@ export class VorlagenDetailPage implements OnInit {
         if (objTage[_.id].start !== _.start) { update.start = _.start; }
         if (objTage[_.id].ende !== _.ende) { update.ende = _.ende; }
         if (objTage[_.id].pause !== _.pause) { update.pause = _.pause; }
-        if (objTage[_.id].erweitert !== _.erweitert) { update.erweitert = _.erweitert; }
+        // if (objTage[_.id].erweitert !== _.erweitert) { update.erweitert = _.erweitert; }
 
         if (objTage[_.id].krank !== _.krank) { update.krank = _.krank; }
         if (objTage[_.id].frei !== _.frei) { update.frei = _.frei; }
