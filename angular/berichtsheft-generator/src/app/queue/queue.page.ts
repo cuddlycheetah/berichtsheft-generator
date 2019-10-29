@@ -14,7 +14,7 @@ const R_QUEUE_PENDING   = -1,
 })
 export class QueuePage implements OnInit, OnDestroy {
   private session;
-  private renderStatus = {
+  public renderStatus = {
     [R_QUEUE_PENDING]: 'Geplant',
     [R_QUEUE_STARTED]: 'In Bearbeitung',
     [R_QUEUE_ERROR]: 'Fehler',

@@ -8,8 +8,8 @@ import { APIProfileService } from '../api/apiprofile.service';
   styleUrls: ['./nutzungsbedingungendialog.component.scss']
 })
 export class NutzungsbedingungendialogComponent implements OnInit {
-  private acceptAGB = false;
-  private acceptDSGVO = false;
+  public acceptAGB = false;
+  public acceptDSGVO = false;
 
   constructor(
     public dialogRef: MatDialogRef<NutzungsbedingungendialogComponent>,
@@ -18,7 +18,7 @@ export class NutzungsbedingungendialogComponent implements OnInit {
 
   ngOnInit() {
   }
-  async accept() {
+  public async accept() {
     (await this.apiProfile.accept())
     .subscribe((res) => {
       this.dialogRef.close(true);
