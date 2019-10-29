@@ -20,6 +20,8 @@
     ]
   },
   "angularCompilerOptions": {
+    "entryModule": "./app/app.module#AppModule",
+    "genDir": "../ngfactory",
     "fullTemplateTypeCheck": false,
     "strictInjectionParameters": true,
     "strictMetadataEmit": true,
