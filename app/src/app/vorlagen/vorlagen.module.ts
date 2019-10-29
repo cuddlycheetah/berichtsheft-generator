@@ -8,12 +8,13 @@ import { IonicModule } from '@ionic/angular';
 import { VorlagenPage } from './vorlagen.page';
 import { MaterialModule } from '../material.service';
 
-const routes: Routes = [
+export const routerModuleForChild = RouterModule.forChild([
   {
     path: '',
     component: VorlagenPage
   }
-];
+]);
+
 
 @NgModule({
   imports: [
@@ -22,7 +23,7 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     MaterialModule,
-    RouterModule.forChild(routes)
+    routerModuleForChild
   ],
   declarations: [VorlagenPage]
 })

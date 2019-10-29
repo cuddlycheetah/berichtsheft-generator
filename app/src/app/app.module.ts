@@ -19,16 +19,7 @@ import { StorageServiceModule} from 'angular-webstorage-service';
 import { MaterialModule } from './material.service';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
-export const API_HOST = ''; // 'https://berichte.sch.umann.it';
-export const MY_MOMENT_FORMATS = {
-  parseInput: 'l LT',
-  fullPickerInput: 'l LT',
-  datePickerInput: 'l',
-  timePickerInput: 'LT',
-  monthYearLabel: 'MMM YYYY',
-  dateA11yLabel: 'LL',
-  monthYearA11yLabel: 'MMMM YYYY',
-};
+export const ionicModuleForRoot = IonicModule.forRoot();
 
 @NgModule({
   declarations: [AppComponent],
@@ -36,7 +27,7 @@ export const MY_MOMENT_FORMATS = {
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    IonicModule.forRoot(),
+    ionicModuleForRoot,
     HttpClientModule,
     AppRoutingModule,
     OwlDateTimeModule,
@@ -52,7 +43,16 @@ export const MY_MOMENT_FORMATS = {
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
 
     { provide: OWL_DATE_TIME_LOCALE, useValue: 'de' },
-    { provide: OWL_DATE_TIME_FORMATS, useValue: MY_MOMENT_FORMATS },
+    { provide: OWL_DATE_TIME_FORMATS, useValue: {
+      parseInput: 'l LT',
+      fullPickerInput: 'l LT',
+      datePickerInput: 'l',
+      timePickerInput: 'LT',
+      monthYearLabel: 'MMM YYYY',
+      dateA11yLabel: 'LL',
+      monthYearA11yLabel: 'MMMM YYYY',
+     },
+    },
     { provide: OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS, useValue: { useUtc: true } },
   ],
   bootstrap: [AppComponent]

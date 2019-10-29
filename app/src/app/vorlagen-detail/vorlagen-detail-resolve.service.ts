@@ -4,7 +4,7 @@ import { APITemplatesService } from '../api/apitemplates.service';
 import { from, Observable } from 'rxjs';
 import Vorlage from '../api/vorlage';
 import { HttpClient } from '@angular/common/http';
-import { API_HOST } from '../app.module';
+import { API_HOST } from '../api/host';
 @Injectable({
   providedIn: 'root'
 })

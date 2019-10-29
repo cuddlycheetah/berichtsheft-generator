@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { LoadingController, AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { API_HOST } from '../app.module';
+import { API_HOST } from './host';
 import { Observable } from 'rxjs';
 import Betrieb from './betrieb';
 

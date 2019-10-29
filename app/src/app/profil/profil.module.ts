@@ -8,12 +8,12 @@ import { IonicModule } from '@ionic/angular';
 import { ProfilPage } from './profil.page';
 import { MaterialModule } from '../material.service';
 
-const routes: Routes = [
+export const routerModuleForChild = RouterModule.forChild([
   {
     path: '',
     component: ProfilPage
   }
-];
+]);
 
 @NgModule({
   imports: [
@@ -22,7 +22,7 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     MaterialModule,
-    RouterModule.forChild(routes)
+    routerModuleForChild
   ],
   declarations: [ProfilPage]
 })

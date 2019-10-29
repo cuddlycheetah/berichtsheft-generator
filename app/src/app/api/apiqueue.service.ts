@@ -2,7 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { LoadingController, AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { API_HOST } from '../app.module';
+import { API_HOST } from './host';
 import { finalize } from 'rxjs/operators';
 
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';

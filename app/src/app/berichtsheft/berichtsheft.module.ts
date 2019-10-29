@@ -9,13 +9,13 @@ import { BerichtsheftPage, EditBereichDialogComponent } from './berichtsheft.pag
 import { MaterialModule } from '../material.service';
 import { KWSelectorComponent } from '../components/kwselector/kwselector.component';
 
-const routes: Routes = [
+
+export const routerModuleForChild = RouterModule.forChild([
   {
     path: '',
     component: BerichtsheftPage
   }
-];
-
+]);
 @NgModule({
   entryComponents: [EditBereichDialogComponent],
   imports: [
@@ -24,7 +24,7 @@ const routes: Routes = [
     FormsModule,
     MaterialModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    routerModuleForChild
   ],
   declarations: [BerichtsheftPage, KWSelectorComponent, EditBereichDialogComponent ]
 })

@@ -64,7 +64,7 @@
               <div formArrayName="taetigkeiten" *ngFor="let taetigkeit of wochenberichtsForm.controls.tage.controls[i].controls.taetigkeiten.controls; let j = index">
                 <section [formGroupName]="j" style="margin-top: 0.5rem; display: flex; justify-content: start;">
                   <mat-form-field style="order: 0;" [hidden]="taetigkeit.value[0].length <= 0">
-                    <input matInput formControlName="0" readonly disabled>
+                    <input matInput formControlName="0" readonly>
                   </mat-form-field>
                   <mat-form-field style="order: 1; width: 65%; max-width: 25rem;">
                     <textarea matInput formControlName="1" placeholder="Bezeichnung" style="max-height: 225rem; resize: none;"></textarea>

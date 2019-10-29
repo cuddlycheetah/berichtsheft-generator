@@ -9,12 +9,13 @@ import { QueuePage } from './queue.page';
 import { MaterialModule } from '../material.service';
 import { MomentModule } from 'angular2-moment';
 
-const routes: Routes = [
+export const routerModuleForChild = RouterModule.forChild([
   {
     path: '',
     component: QueuePage
   }
-];
+]);
+
 
 @NgModule({
   imports: [
@@ -23,7 +24,7 @@ const routes: Routes = [
     IonicModule,
     MomentModule,
     MaterialModule,
-    RouterModule.forChild(routes)
+    routerModuleForChild
   ],
   declarations: [QueuePage]
 })

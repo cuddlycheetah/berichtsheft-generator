@@ -82,7 +82,7 @@ export class BerichtsheftDetailPage implements OnInit {
   }
   initTaetigkeit() {
     const arr =  this.formBuilder.array([
-      this.formBuilder.control(''), // legacy support
+      this.formBuilder.control(''), // legacy
       this.formBuilder.control('', [ Validators.required, Validators.maxLength(180) ]),
       this.formBuilder.control('0:00', [ Validators.required, Validators.maxLength(6) ])
     ]);
@@ -209,6 +209,7 @@ export class BerichtsheftDetailPage implements OnInit {
     for (const formTag of formVersion.tage) {
       const originalTag = original.tage.filter((oTag) => oTag.id === formTag.id)[0];
       const isModified = JSON.stringify(formTag) !== JSON.stringify(originalTag);
+      console.log(isModified, originalTag, formTag);
       if (isModified) {
         /*if (!!originalTag) {
           updateTage.push(await this.apiTagesbericht.create(this.wochenberichtDetails.uuid, formTag.id));

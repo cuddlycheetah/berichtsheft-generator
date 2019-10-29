@@ -9,7 +9,7 @@ import { MainPage } from './main.page';
 import { VorlagenDetailResolveService } from '../vorlagen-detail/vorlagen-detail-resolve.service';
 import { BerichtsheftDetailResolveService } from '../berichtsheft-detail/berichtsheft-detail-resolve.service';
 
-const routes: Routes = [
+export const routerModuleForChild = RouterModule.forChild([
   {
     path: '',
     component: MainPage,
@@ -77,14 +77,14 @@ const routes: Routes = [
     redirectTo: '/main/info',
     pathMatch: 'full'
   }
-];
+]);
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    routerModuleForChild
   ],
   declarations: [MainPage],
   providers: [

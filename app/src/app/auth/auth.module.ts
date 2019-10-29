@@ -8,20 +8,19 @@ import { IonicModule } from '@ionic/angular';
 import { AuthPage } from './auth.page';
 import { MaterialModule } from '../material.service';
 
-const routes: Routes = [
+export const routerModuleForChild = RouterModule.forChild([
   {
     path: '',
     component: AuthPage
   }
-];
-
+]);
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
-    RouterModule.forChild(routes),
+    routerModuleForChild,
     MaterialModule,
   ],
   declarations: [AuthPage]

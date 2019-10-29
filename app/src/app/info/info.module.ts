@@ -8,12 +8,12 @@ import { IonicModule } from '@ionic/angular';
 import { InfoPage } from './info.page';
 import { MaterialModule } from '../material.service';
 
-const routes: Routes = [
+export const routerModuleForChild = RouterModule.forChild([
   {
     path: '',
     component: InfoPage
   }
-];
+]);
 
 @NgModule({
   imports: [
@@ -21,7 +21,7 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     MaterialModule,
-    RouterModule.forChild(routes)
+    routerModuleForChild
   ],
   declarations: [InfoPage]
 })
