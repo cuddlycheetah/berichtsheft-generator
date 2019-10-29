@@ -84,6 +84,15 @@ export class VorlagenDetailPage implements OnInit {
       ));
     }
   }
+  get formTage() {
+    return (this.vorlage.get('tage') as FormArray).controls;
+  }
+  formTaetigkeiten(i) {
+    return ((this.vorlage.get('tage') as FormArray).controls[i].get('taetigkeiten') as FormArray).controls;
+  }
+  formIsKrank(i) {
+    return (this.vorlage.get('tage') as FormArray).controls[i].get('krank').value;
+  }
   initTaetigkeit() {
     const arr =  this.formBuilder.array([
       this.formBuilder.control(''), // legacy support

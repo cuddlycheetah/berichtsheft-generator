@@ -61,7 +61,7 @@
             </section>
 
             <section style="margin-left: 2rem; margin-top: 0.5rem;">
-              <div formArrayName="taetigkeiten" *ngFor="let taetigkeit of formTage[i].get('taetigkeiten'); let j = index">
+              <div formArrayName="taetigkeiten" *ngFor="let taetigkeit of formTaetigkeiten(i); let j = index">
                 <section [formGroupName]="j" style="margin-top: 0.5rem; display: flex; justify-content: start;">
                   <mat-form-field style="order: 0;" [hidden]="taetigkeit.value[0].length <= 0">
                     <input matInput formControlName="0" readonly>

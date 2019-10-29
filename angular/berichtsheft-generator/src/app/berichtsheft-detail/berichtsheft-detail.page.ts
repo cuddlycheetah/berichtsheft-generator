@@ -51,6 +51,9 @@ export class BerichtsheftDetailPage implements OnInit {
   get formTage() {
     return (this.wochenberichtsForm.get('tage') as FormArray).controls;
   }
+  formTaetigkeiten(i) {
+    return ((this.wochenberichtsForm.get('tage') as FormArray).controls[i].get('taetigkeiten') as FormArray).controls;
+  }
   formIsKrank(i) {
     return (this.wochenberichtsForm.get('tage') as FormArray).controls[i].get('krank').value;
   }
