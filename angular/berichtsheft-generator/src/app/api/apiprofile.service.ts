@@ -17,6 +17,17 @@ export class APIProfileService {
     private alertCtrl: AlertController,
     private router: Router
   ) { }
+  async accept() {
+    const loading = await this.loadingCtrl.create({
+      message: 'Akzeptiere AGB/DSGVO',
+      translucent: true,
+    });
+    await loading.present();
+    return this.http.get(`${ API_HOST }/api/v1/self/profile/accept`)
+    .pipe(
+      finalize(() => loading.dismiss())
+    ) as Observable<any>;
+  }
   async fetch() {
     const loading = await this.loadingCtrl.create({
       message: 'Lade Profil',
