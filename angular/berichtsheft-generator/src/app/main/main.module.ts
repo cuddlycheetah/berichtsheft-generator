@@ -8,6 +8,8 @@ import { IonicModule } from '@ionic/angular';
 import { MainPage } from './main.page';
 import { VorlagenDetailResolveService } from '../vorlagen-detail/vorlagen-detail-resolve.service';
 import { BerichtsheftDetailResolveService } from '../berichtsheft-detail/berichtsheft-detail-resolve.service';
+import { MaterialModule } from '../material.module';
+import { NutzungsbedingungendialogComponent } from '../nutzungsbedingungendialog/nutzungsbedingungendialog.component';
 
 export const routerModuleForChild = RouterModule.forChild([
   {
@@ -80,16 +82,23 @@ export const routerModuleForChild = RouterModule.forChild([
 ]);
 
 @NgModule({
+  entryComponents: [
+    NutzungsbedingungendialogComponent,
+  ],
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    MaterialModule,
     routerModuleForChild
   ],
-  declarations: [MainPage],
+  declarations: [
+    MainPage,
+    NutzungsbedingungendialogComponent,
+  ],
   providers: [
     VorlagenDetailResolveService,
-    BerichtsheftDetailResolveService
+    BerichtsheftDetailResolveService,
   ],
 })
 export class MainPageModule {}

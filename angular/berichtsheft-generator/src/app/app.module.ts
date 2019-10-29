@@ -3,8 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
+//import { SplashScreen } from '@ionic-native/splash-screen/ngx';
+//import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { MomentModule } from 'angular2-moment';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -37,8 +37,8 @@ export const ionicModuleForRoot = IonicModule.forRoot();
     StorageServiceModule
   ],
   providers: [
-    StatusBar,
-    SplashScreen,
+    // StatusBar,
+    // SplashScreen,
     { provide: HTTP_INTERCEPTORS, useClass: InterceptorProvider, multi: true },
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
 

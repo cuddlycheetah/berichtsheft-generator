@@ -1,1 +1,1 @@
-export const API_HOST = 'https://berichte.sch.umann.it';
+export const API_HOST = ''; //'https://berichte.sch.umann.it';
