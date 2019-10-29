@@ -88,10 +88,6 @@ export class BerichtsheftDetailPage implements OnInit {
     ]);
     return arr;
   }
-  addTaetigkeit(i) {
-    const arr = this.wochenberichtsForm.get('tage').get(i).get('taetigkeiten') as FormArray;
-    arr.push(this.initTaetigkeit());
-  }
   async deleteTaetigkeit(i, j) {
     const arr = this.wochenberichtsForm.get('tage').get(i.toString()).get('taetigkeiten') as FormArray;
 

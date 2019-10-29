@@ -31,7 +31,7 @@
       <mat-checkbox formControlName="renwIDCheck">ID automatisch ändern(sobald gespeichert wird)</mat-checkbox>
 
       <mat-tab-group>
-        <mat-tab formArrayName="tage" *ngFor="let tag of wochenberichtsForm.get('tage').value; let i = index">
+        <mat-tab formArrayName="tage" *ngFor="let tag of wochenberichtsForm.controls.tage.controls; let i = index">
           <ng-template mat-tab-label>{{ dayNames[i] }}</ng-template>
 
           <section [formGroupName]="i">
@@ -56,12 +56,12 @@
             <section style="margin-left: 2rem; margin-top: 0.5rem;">
               <mat-checkbox formControlName="krank">Freier Tag/Krank</mat-checkbox>
               <mat-form-field style="margin-left: 2rem;">
-                <input matInput placeholder="Grund" formControlName="frei" min="1" max="4" [readonly]="!wochenberichtsForm.get('tage').get(i).value.krank" [attr.required]="!wochenberichtsForm.get('tage').get(i).value.krank">
+                <input matInput placeholder="Grund" formControlName="frei" min="1" max="4" [readonly]="!wochenberichtsForm.controls.tage.controls[i].value.krank" [attr.required]="!wochenberichtsForm.controls.tage.controls[i].value.krank">
               </mat-form-field>
             </section>
 
             <section style="margin-left: 2rem; margin-top: 0.5rem;">
-              <div formArrayName="taetigkeiten" *ngFor="let taetigkeit of wochenberichtsForm.get('tage').get(i).get('taetigkeiten').value; let j = index">
+              <div formArrayName="taetigkeiten" *ngFor="let taetigkeit of wochenberichtsForm.controls.tage.controls[i].controls.taetigkeiten.controls; let j = index">
                 <section [formGroupName]="j" style="margin-top: 0.5rem; display: flex; justify-content: start;">
                   <mat-form-field style="order: 0;" [hidden]="taetigkeit.value[0].length <= 0">
                     <input matInput formControlName="0" readonly>
@@ -77,7 +77,7 @@
                   </button>
                 </section>
               </div>
-              <button mat-flat-button style="margin-top: 0.5rem;" color="primary" (click)="addTaetigkeit(i)">
+              <button mat-flat-button style="margin-top: 0.5rem;" color="primary" (click)="wochenberichtsForm.controls.tage.controls[i].controls.taetigkeiten.push(initTaetigkeit())">
                 <mat-icon>add</mat-icon>
               </button>
             </section>

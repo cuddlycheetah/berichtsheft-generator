@@ -88,14 +88,6 @@ export class VorlagenDetailPage implements OnInit {
     ]);
     return arr;
   }
-  addTaetigkeit(i) {
-    const arr = this.vorlage.get('tage').get(i).get('taetigkeiten') as FormArray;
-    arr.push(this.initTaetigkeit());
-  }
-  deleteTaetigkeit(i, j) {
-    const arr = this.vorlage.get('tage').get(i).get('taetigkeiten') as FormArray;
-    arr.removeAt(j)
-  }
   initDay(dayIndex) {
     return this.formBuilder.group({
       uuid: [ false ],
