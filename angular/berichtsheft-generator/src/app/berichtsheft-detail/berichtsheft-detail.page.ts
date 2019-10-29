@@ -48,6 +48,12 @@ export class BerichtsheftDetailPage implements OnInit {
       tage: this.formBuilder.array([]),
     });
   }
+  get formTage() {
+    return (this.wochenberichtsForm.get('tage') as FormArray).controls;
+  }
+  formIsKrank(i) {
+    return (this.wochenberichtsForm.get('tage') as FormArray).controls[i].get('krank').value;
+  }
 
   async refreshTemplates() {
     forkJoin([
