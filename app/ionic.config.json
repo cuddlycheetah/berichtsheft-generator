@@ -1,7 +1,0 @@
-{
-  "name": "berichtshefteditor",
-  "integrations": {
-    "cordova": {}
-  },
-  "type": "angular"
-}
