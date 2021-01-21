@@ -29,7 +29,7 @@
     "moment": "^2.24.0",
     "ng-pick-datetime": "^7.0.0",
     "rxjs": "~6.4.0",
-    "socket.io": "^2.3.0",
+    "socket.io": "^2.4.0",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"
   },
